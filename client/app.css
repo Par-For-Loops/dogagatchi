@@ -435,3 +435,7 @@ body {
   margin-left: 350px;
   margin-bottom: 20px;
 }
+
+.map-container {
+  height: 400px;
+  }
