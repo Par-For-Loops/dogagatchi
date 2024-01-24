@@ -4,7 +4,7 @@ import axios from 'axios';
 function Gallery() {
   // state variable for dog pics
   const [dogGallery, setDogGallery] = useState([])
-
+  // 'search' for dog pics
   function getDogPics(breedName) {
     // axios get request
     // console.log(breedName);
@@ -15,8 +15,22 @@ function Gallery() {
       })
       .catch((err) => console.error('no dogs ', err))
   }
-
+  // axios post to upload dog imgs
+  // should take in a URL 
+  function uploadDogImage(imageUrl) {
+    axios.post('/api/gallery', {
+      url: imageUrl
+    })
+      .then((response) => {
+        console.log('upload response: ', response.data)
+        // add cloudinary url to database here, put request
+      })
+      .catch((err) => console.error('Could not post to Cloudinary ', err))
+  }
   // handleImageClick function to send image URL to cloudinary post req
+  function handleImageClick(image) {
+    uploadDogImage(image);
+  }
 
   return (
     <div>
@@ -34,7 +48,7 @@ function Gallery() {
             <img 
               src={image} 
               alt={i}
-              onClick={() => console.log(image)}
+              onClick={() => handleImageClick(image)}
             />
           </li>
         ))

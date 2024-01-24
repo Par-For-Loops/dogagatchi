@@ -142,7 +142,7 @@ app.get('/api/quiz', (req, res) => {
 app.get('/api/gallery/:breed', (req, res) => {
   // console.log(req.params);
   const { breed } = req.params;
-  console.log(req.params);
+  // console.log(req.params);
   
   // console.log(getDogImages(breed));
   getDogImages(breed)
@@ -163,6 +163,7 @@ app.post('/api/gallery', (req, res) => {
   uploadImage(url)
   .then((result) => {
     console.log('success ', result);
+    res.send(result.url).status(201);
   })
   .catch((err) => console.error('could not upload ', err));
 })
