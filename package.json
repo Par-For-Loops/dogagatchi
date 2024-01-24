@@ -4,7 +4,7 @@
   "description": "greenfield",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "nodemon server/index.js",
     "build-dev": "webpack --mode=development --watch",
     "build": "webpack --mode=production"
   },
@@ -55,6 +55,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "html-webpack-plugin": "^5.5.3",
+    "nodemon": "^3.0.3",
     "react-error-overlay": "^6.0.9",
     "style-loader": "^3.3.3",
     "webpack": "^5.89.0",

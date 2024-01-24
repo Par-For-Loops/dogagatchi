@@ -23,6 +23,9 @@ const clientSecret = process.env.GOOGLE_CLIENT_SECRET
 
 const distPath = path.resolve(__dirname, '..', 'dist');
 
+// api 
+const { getDogImages } = require('./api/dogApi.js')
+
 
 // MIDDLEWARE - every request runs through this middleware
 // (functions that all requests go through)
@@ -132,6 +135,24 @@ app.get('/api/quiz', (req, res) => {
     })
     .catch((err) => { console.error(err) })
 });
+
+// GET dog pictures for gallery search
+app.get('/api/gallery/:breed', (req, res) => {
+  // console.log(req.params);
+  const { breed } = req.params;
+  // console.log(breed);
+  
+  // console.log(getDogImages(breed));
+  getDogImages(breed)
+    .then((response) => {
+      // console.log(response.data.message);
+      res.status(200).send(response.data.message)
+    })
+    .catch((err) => {
+      console.error('Could not GET dog images ', err);
+      res.sendStatus(500);
+    })
+})
 
 
 
