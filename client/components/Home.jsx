@@ -30,6 +30,9 @@ const Home = () => {
             <Link to='/leaderboard'>
             <Button className='boot-button'>Top Dawgs 🏆</Button>
             </Link>
+            <Link to="/chat">
+                <Button className='boot-button'>Chat 🐶</Button>
+            </Link>
             <Link to='/about'>
             <Button className='boot-button'>About 📖</Button>
             </Link>
