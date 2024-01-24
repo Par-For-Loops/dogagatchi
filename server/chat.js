@@ -1,5 +1,5 @@
-import { createServer } from "http";
-import { Server } from "socket.io";
+const { createServer } = require('http');
+const { Server } = require('socket.io');
 
 const httpServer = createServer();
 const io = new Server(httpServer, {
@@ -11,9 +11,15 @@ const io = new Server(httpServer, {
 
 io.on('connection', (socket) => {
   console.log('a user connected');
+
+  socket.on('message', (msg) => {
+    console.log('message: ', msg);
+    io.emit('message', msg);
+  })
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
 });
 
-module.exports = io;
+io.listen(4001);

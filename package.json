@@ -4,7 +4,8 @@
   "description": "greenfield",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "nodemon server/index.js",
+    "socket": "nodemon server/chat.js",
     "build-dev": "webpack --mode=development --watch",
     "build": "webpack --mode=production"
   },
@@ -33,6 +34,7 @@
     "mongodb": "^6.2.0",
     "mongoose": "^8.0.0",
     "node": "^21.1.0",
+    "nodemon": "^3.0.3",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
@@ -41,7 +43,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0",
     "react-scripts": "^5.0.1",
-    "socket.io": "^4.7.4"
+    "socket.io": "^4.7.4",
+    "socket.io-client": "^4.7.4"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",
