@@ -12,6 +12,7 @@ const cloudinary = require('cloudinary').v2;
 
 const userRoutes = require('./routes/userRoutes')
 const dogRoutes = require('./routes/dogRoutes')
+const messageRoutes = require('./routes/messageRoutes')
 
 const app = express();
 const routeHandler = express.Router()
@@ -40,6 +41,7 @@ app.use(passport.session())
 
 routeHandler.use('/user', userRoutes)
 routeHandler.use('/dog', dogRoutes)
+routeHandler.use('/message', messageRoutes)
 app.use('/', routeHandler)
 
 passport.use(new LocalStrategy({

@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
 });
 // creates user docs in the db
 const User = mongoose.model('User', userSchema);
+
 // schema for Dogs
 const dogSchema = new mongoose.Schema({
   name: String,
@@ -32,10 +33,17 @@ const dogSchema = new mongoose.Schema({
   walkDeadline: Date, // timers
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 });
-
 const Dog = mongoose.model('Dog', dogSchema);
+
+const messageSchema = new mongoose.Schema({
+  message: String,
+  createdAt: { type: Date, expires: 60, default: Date.now }
+})
+// 604800 should be a week of seconds
+const Message = mongoose.model('Message', messageSchema);
 
 module.exports = {
   User,
   Dog,
+  Message,
 };
