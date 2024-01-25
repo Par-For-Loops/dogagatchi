@@ -7,7 +7,7 @@ const Chat = () => {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const userObj = JSON.parse(sessionStorage.getItem("user"));
+  const userObj = JSON.parse(sessionStorage.getItem('user'));
 
   useEffect(() => {
     console.log(userObj);
@@ -45,14 +45,25 @@ const Chat = () => {
 
   const emitMessage = () => {
     setIsLoading(true);
-    socket.timeout(5000).emit('message', message, () => setIsLoading(false));
+    socket
+      .timeout(1000)
+      .emit('message', `${userObj.username}: ${message}`, (err) => {
+        setIsLoading(false);
+        if (err) {
+          emit(socket, 'message', `${userObj.username}: ${message}`);
+        }
+      });
   };
 
   return (
     <div className='chat'>
       <p>State: {'' + isConnected}</p>
+      <button onClick={() => socket.connect()}>Connect</button>
+      <button onClick={() => socket.disconnect()}>Disconnect</button>
       <input value={message} onChange={(e) => setMessage(e.target.value)} />
-      <button type="button" disabled={isLoading} onClick={emitMessage}>Submit</button>
+      <button type='button' disabled={isLoading} onClick={emitMessage}>
+        Submit
+      </button>
       <ul>
         {messageEvents.map((msg, i) => (
           <li key={i}>{msg}</li>
