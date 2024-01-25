@@ -14,6 +14,7 @@ import Restaurant from './Restaurant.jsx';
 import Chat from './Chat.jsx';
 import About from './About.jsx';
 import DeletedUser from './DeletedUser.jsx';
+import Gallery from './Gallery.jsx';
 function App() {
   return (
     
@@ -30,6 +31,7 @@ function App() {
             <Route path='/chat' element={<div><NavBar /><Chat /></div>}/>
             <Route path='/about' element={<div><NavBar/><About/></div>}/>
             </Route>
+            <Route path='/gallery' element={<div><NavBar/><Gallery/></div>}/>
             <Route path='/' element={<Login/>}/>
             <Route path='deleted' element={<DeletedUser/>}/>
         </Routes>
