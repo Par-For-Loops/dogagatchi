@@ -162,7 +162,7 @@ app.post('/api/gallery', (req, res) => {
 
   uploadImage(url)
   .then((result) => {
-    console.log('success ', result);
+    // console.log('success ', result);
     res.send(result.url).status(201);
   })
   .catch((err) => console.error('could not upload ', err));
