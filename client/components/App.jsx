@@ -15,6 +15,7 @@ import Chat from './Chat.jsx';
 import About from './About.jsx';
 import DeletedUser from './DeletedUser.jsx';
 import MyMap from './Map.jsx';
+import DogBlog from './DogBlog.jsx';
 import Gallery from './Gallery.jsx';
 function App() {
   return (
