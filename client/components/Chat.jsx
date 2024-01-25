@@ -47,11 +47,8 @@ const Chat = () => {
     setIsLoading(true);
     socket
       .timeout(1000)
-      .emit('message', `${userObj.username}: ${message}`, (err) => {
+      .emit('message', `${userObj.username}: ${message}`, () => {
         setIsLoading(false);
-        if (err) {
-          emit(socket, 'message', `${userObj.username}: ${message}`);
-        }
       });
   };
 
