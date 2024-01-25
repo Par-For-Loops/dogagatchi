@@ -22,6 +22,7 @@ function MyMap() {
             zoom: zoom
         });
         createMarker()
+        clickForNewMarker()
     });
     
     
@@ -31,14 +32,25 @@ function MyMap() {
         map.marker = new mapboxgl.Marker({
             color: "orange",
             draggable: false
-        }).setLngLat([lng, lat])
+        })
+        // .setLngLat([lng, lat])
+        //     .addTo(map.current);
+        
+        .setLngLat([lng, lat])
             .addTo(map.current);
         const lngLat = map.marker.getLngLat()
         console.log(lngLat)
     }
       
     function clickForNewMarker(){
-        
+        map.current.on('click', (e) => {
+            // setLng(e.lngLat.lng)
+            // setLat(e.lngLat.lat)
+            let coordinates = e.lngLat
+            map.marker.setLngLat(coordinates)
+            .addTo(map.current);
+            console.log(e.lngLat)
+        })
     }
 
       return (
