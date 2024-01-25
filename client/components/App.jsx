@@ -14,6 +14,7 @@ import Restaurant from './Restaurant.jsx';
 import Chat from './Chat.jsx';
 import About from './About.jsx';
 import DeletedUser from './DeletedUser.jsx';
+import DogBlog from './DogBlog.jsx';
 import Gallery from './Gallery.jsx';
 function App() {
   return (
