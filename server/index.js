@@ -8,7 +8,8 @@ const session = require('express-session')
 const bcrypt = require('bcrypt')
 const flash = require('express-flash')
 require('dotenv').config()
-const cloudinary = require('cloudinary').v2;
+// const cloudinary = require('cloudinary').v2;
+const cloudinary = require('cloudinary')
 
 const userRoutes = require('./routes/userRoutes')
 const dogRoutes = require('./routes/dogRoutes')
@@ -166,6 +167,24 @@ app.post('/api/gallery', (req, res) => {
     res.send(result.url).status(201);
   })
   .catch((err) => console.error('could not upload ', err));
+})
+
+// POST meme
+app.post('api/meme', (req, res) => {
+  // const { image, transform } = req.body;
+  const { image } = req.body;
+  console.log('image ', image);
+  // console.log('transform ', transform);
+
+  const url = cloudinary.url(image, transform);
+  // console.log(url);
+
+  // uploadImage(url)
+  // .then((result) => {
+  //   console.log('meme success ', result);
+  //   // res.send(result.url).status(201);
+  // })
+  // .catch((err) => console.error('could not upload ', err));
 })
 
 

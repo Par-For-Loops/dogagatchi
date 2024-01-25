@@ -22,7 +22,7 @@ function Gallery() {
       url: imageUrl
     })
       .then((response) => {
-        // console.log('upload response: ', response.data)
+        console.log('upload response: ', response.data)
         // add cloudinary url to database here, put request
       })
       .catch((err) => console.error('Could not post to Cloudinary ', err))
