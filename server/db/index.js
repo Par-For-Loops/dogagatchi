@@ -35,9 +35,10 @@ const dogSchema = new mongoose.Schema({
 });
 const Dog = mongoose.model('Dog', dogSchema);
 
+// schema for chat room message persistance
 const messageSchema = new mongoose.Schema({
   message: String,
-  createdAt: { type: Date, expires: 60, default: Date.now }
+  createdAt: { type: Date, expires: 54000, default: Date.now }
 })
 // 604800 should be a week of seconds
 const Message = mongoose.model('Message', messageSchema);

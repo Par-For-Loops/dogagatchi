@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { socket } from '../socket.js';
 
 const Chat = () => {
@@ -10,7 +11,15 @@ const Chat = () => {
   const userObj = JSON.parse(sessionStorage.getItem('user'));
 
   useEffect(() => {
-    // console.log(userObj);
+    axios
+      .get('/messages/all')
+      .then(({ data }) => {
+        setMessageEvents(data);
+      })
+      .catch((err) => {
+        console.error('Could not GET all msgs: ', err);
+      });
+
     function onConnect() {
       setIsConnected(true);
     }
@@ -33,6 +42,7 @@ const Chat = () => {
 
   useEffect(() => {
     function onMessageEvent(value) {
+      // console.log(value);
       setMessageEvents((previous) => [...previous, value]);
     }
 
@@ -45,11 +55,19 @@ const Chat = () => {
 
   const emitMessage = () => {
     setIsLoading(true);
+    const now = new Date();
     socket
       .timeout(1000)
-      .emit('message', `${userObj.username}: ${message}`, () => {
-        setIsLoading(false);
-      });
+      .emit(
+        'message',
+        { message: `${userObj.username}: ${message}`, createdAt: now.toISOString() },
+        () => {
+          setIsLoading(false);
+        }
+      );
+    axios
+      .post('/messages/post', { message: `${userObj.username}: ${message}` })
+      .catch((err) => console.error('Could not POST msg: ', err));
   };
 
   return (
@@ -63,7 +81,7 @@ const Chat = () => {
       </button>
       <ul>
         {messageEvents.map((msg, i) => (
-          <li key={i}>{msg}</li>
+          <li key={i}>{msg.message}</li>
         ))}
       </ul>
     </div>

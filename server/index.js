@@ -41,7 +41,7 @@ app.use(passport.session())
 
 routeHandler.use('/user', userRoutes)
 routeHandler.use('/dog', dogRoutes)
-routeHandler.use('/message', messageRoutes)
+routeHandler.use('/messages', messageRoutes)
 app.use('/', routeHandler)
 
 passport.use(new LocalStrategy({

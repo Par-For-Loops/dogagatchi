@@ -4,7 +4,7 @@ const { Message } = require('../db/index');
 // To initialize messages array in Chat component, returns all message from db
 router.get('/all', (req, res) => {
   Message.find({})
-    .sort('-createdAt')
+    .sort('createdAt')
     .then((msgArr) => res.status(200).send(msgArr))
     .catch((err) => {
       console.error('Failed to Find all msgs: ', err);
