@@ -10,7 +10,7 @@ const Chat = () => {
   const userObj = JSON.parse(sessionStorage.getItem('user'));
 
   useEffect(() => {
-    console.log(userObj);
+    // console.log(userObj);
     function onConnect() {
       setIsConnected(true);
     }
