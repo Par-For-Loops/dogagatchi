@@ -8,6 +8,7 @@ const session = require('express-session')
 const bcrypt = require('bcrypt')
 const flash = require('express-flash')
 require('dotenv').config()
+const cloudinary = require('cloudinary').v2;
 
 const userRoutes = require('./routes/userRoutes')
 const dogRoutes = require('./routes/dogRoutes')
@@ -22,6 +23,10 @@ const clientSecret = process.env.GOOGLE_CLIENT_SECRET
 
 
 const distPath = path.resolve(__dirname, '..', 'dist');
+
+// api helpers
+const { getDogImages } = require('./api/dogApi.js')
+const { uploadImage } = require('./api/cloudinary.js');
 
 
 // MIDDLEWARE - every request runs through this middleware
@@ -132,6 +137,36 @@ app.get('/api/quiz', (req, res) => {
     })
     .catch((err) => { console.error(err) })
 });
+
+// GET dog pictures for gallery search
+app.get('/api/gallery/:breed', (req, res) => {
+  // console.log(req.params);
+  const { breed } = req.params;
+  // console.log(req.params);
+  
+  // console.log(getDogImages(breed));
+  getDogImages(breed)
+    .then((response) => {
+      // console.log(response.data.message);
+      res.status(200).send(response.data.message)
+    })
+    .catch((err) => {
+      console.error('Could not GET dog images ', err);
+      res.sendStatus(500);
+    })
+})
+
+// POST dog pics to cloudinary
+app.post('/api/gallery', (req, res) => {
+  const { url } = req.body;
+
+  uploadImage(url)
+  .then((result) => {
+    console.log('success ', result);
+    res.send(result.url).status(201);
+  })
+  .catch((err) => console.error('could not upload ', err));
+})
 
 
 

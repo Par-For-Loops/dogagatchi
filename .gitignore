@@ -129,5 +129,10 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+
+#AWS key 
+awskey2.pem
+dogKeyPair.pem
+
 # clientId file in assets, variable for GoogleAuthProvider component in index.jsx
 client/components/assets/clientId.js
