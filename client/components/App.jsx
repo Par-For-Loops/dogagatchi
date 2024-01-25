@@ -13,6 +13,7 @@ import NavBar from './Navbar.jsx';
 import Restaurant from './Restaurant.jsx';
 import About from './About.jsx';
 import DeletedUser from './DeletedUser.jsx';
+import DogBlog from './DogBlog.jsx';
 function App() {
   return (
     
@@ -26,6 +27,7 @@ function App() {
             <Route path='/user' element={<div><NavBar/><User/></div>}/>
             <Route path='/kennel' element={<div><NavBar/><Kennel/></div>}/>
             <Route path='/restaurant' element={<div><NavBar/><Restaurant/></div>}/>
+            <Route path='/dogblog' element={<div><NavBar/><DogBlog/></div>}/>
             <Route path='/about' element={<div><NavBar/><About/></div>}/>
             </Route>
             <Route path='/' element={<Login/>}/>

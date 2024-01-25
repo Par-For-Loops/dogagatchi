@@ -24,6 +24,8 @@ function NavBar(props) {
             <Nav.Link className="ms-auto" as={Link} to="/restaurant">Bone Appetite Cafe 🍽️</Nav.Link>
             <Nav.Link className="ms-auto" as={Link} to="/leaderboard">Top Dawgs 🏆</Nav.Link>
             <Nav.Link className="ms-auto" as={Link} to="/about">About 📖</Nav.Link>
+            <Nav.Link className="ms-auto" as={Link} to="/dogblog">Dog Blog</Nav.Link>
+
             <Nav.Link className="ms-auto" onClick={logout}>BowWowt 👋</Nav.Link>
           </Nav>
         </Navbar.Collapse>

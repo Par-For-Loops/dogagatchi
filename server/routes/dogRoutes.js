@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
+const axios = require('axios');
 const { Dog, User } = require('../db/index');
+
+const { OPENAI_KEY } = require('../config');
 
 
 // **************** GET ROUTES ********************
@@ -42,6 +45,29 @@ router.get('/id/:dogId', (req, res) => {
       console.error('SERVER ERROR: failed to GET dog by id', err);
       res.sendStatus(500);
     });
+})
+
+//GET DOG STORY FROM EXTERNAL API AND SAVE TO DOG DB
+
+router.get('/story/:dogName', (req, res) => {
+  const { dogName } = req.params;
+  const headers = {
+    headers: {
+      authorization: `Bearer ${OPENAI_KEY}`,
+    }
+  };
+
+  const body = {
+    "model": "gpt-3.5-turbo-instruct",
+    "prompt": `Write a story about my dog named ${dogName}, and what he did today.`,
+    "max_tokens": 100,
+    "temperature": 0
+  }
+  axios.post('https://api.openai.com/v1/completions', body, headers)
+  .then((response) => {
+    res.status(200).send(response.data.choices);
+  })
+  .catch((err) => console.log(err))
 })
 
 // **************** POST ROUTES ********************
