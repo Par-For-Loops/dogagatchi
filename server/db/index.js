@@ -20,7 +20,8 @@ const userSchema = new mongoose.Schema({
   breeds: [String], // array of image strings that are correctly answered
   achievements: [{name: String, image: String, description: String}],
   meals: [{name:String, image:String, idMeal:Number, cost:Number, fullTime:String}],
-  img: String
+  img: String,
+  hiddenBones: [{lng:Number, lat:Number, boneNote:String}]
 });
 // creates user docs in the db
 const User = mongoose.model('User', userSchema);
