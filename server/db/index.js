@@ -31,6 +31,8 @@ const dogSchema = new mongoose.Schema({
   feedDeadline: Date, // timers
   walkDeadline: Date, // timers
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  breed: String,
+  stories: Array
 });
 
 const Dog = mongoose.model('Dog', dogSchema);
