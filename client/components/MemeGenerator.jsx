@@ -11,7 +11,6 @@ function MemeGenerator() {
   // search
   const [search, setSearch] = useState('')
   // state text variables
-  const [topText, setTopText] = useState('');
   const [bottomText, setBottomText] = useState('');
   // state image variable? would have to be passed down as props
   // data Url variable, will be state
@@ -38,16 +37,19 @@ function MemeGenerator() {
     image.onload = function() {
       canvas.width = image.width;
       canvas.height = image.height;
+      // console.log(image.width);
+      // console.log(image.height);
       context.drawImage(image, 0, 0);
       context.font = "30px Arial";
-      context.fillText("Hello World", 10, 50);
+      context.textAlign = 'center';
+      context.fillText(bottomText, (image.width * .50), (image.height * .77));
       dataUrl = canvas.toDataURL("image/jpeg");
       console.log(dataUrl);
       // console.log(image.height);
       // post(dataUrl);
     }
    // console.log(context)
-   image.src = "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_10972.jpg";
+   image.src = dogImage;
    image.crossOrigin="anonymous";
 
   }
@@ -87,25 +89,27 @@ function MemeGenerator() {
         Search
       </button>
       <form className="meme-form" >
-        <input 
+        {/* <input 
           type="text"
           name="topText"
           value={topText}
           onChange={(e) => {
             setTopText(e.target.value);
           }}
-        />
+        /> */}
         <input 
           type="text"
           name="bottomText"
           value={bottomText}
+          placeholder="arf arf"
           onChange={(e) => setBottomText(e.target.value)}
         />
         <button>Submit</button>
       </form>
-        <div className="meme-image">
+        <div className="meme">
           <img src={dogImage} alt="" />
-          <h2 style={{ textAlign: "center", fontFamily: "impact", fontWeight: "bold" }}>{topText}</h2>
+          <div className="overlay-text">{bottomText}</div>
+          {/* <h2 className="bottom">{bottomText}</h2> */}
         </div>
         <button onClick={handleClick}>Save Meme</button>
     </div>
