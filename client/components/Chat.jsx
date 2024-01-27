@@ -1,23 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { socket } from '../socket.js';
 
 const Chat = () => {
-  const [isConnected, setIsConnected] = useState(socket.connected);
+  // const [isConnected, setIsConnected] = useState(socket.connected);
   const [messageEvents, setMessageEvents] = useState([]);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const div = useRef(null);
+
   const userObj = JSON.parse(sessionStorage.getItem('user'));
 
-  const smoothScroll = () => {
-    const anchor = document.getElementById('message-area');
-    anchor.scrollTo(0, anchor.scrollHeight);
-  }
-
   useEffect(() => {
-
     axios
       .get('/messages/all')
       .then(({ data }) => {
@@ -27,24 +23,22 @@ const Chat = () => {
         console.error('Could not GET all msgs: ', err);
       });
 
-    function onConnect() {
-      setIsConnected(true);
-    }
+    // function onConnect() {
+    //   setIsConnected(true);
+    // }
 
-    function onDisconnect() {
-      setIsConnected(false);
-    }
+    // function onDisconnect() {
+    //   setIsConnected(false);
+    // }
 
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
+    // socket.on('connect', onConnect);
+    // socket.on('disconnect', onDisconnect);
 
     socket.connect();
 
-    smoothScroll();
-
     return () => {
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
+      // socket.off('connect', onConnect);
+      // socket.off('disconnect', onDisconnect);
       socket.disconnect();
     };
   }, []);
@@ -55,6 +49,8 @@ const Chat = () => {
     }
 
     socket.on('message', onMessageEvent);
+
+    div.current.scrollIntoView({behavior: "smooth", block: "end"});
 
     return () => {
       socket.off('message', onMessageEvent);
@@ -88,7 +84,8 @@ const Chat = () => {
 
   return (
     <div className='chat'>
-      <div className='message-area' id='message-area'>
+      <div className='message-area'>
+        <div ref={div}>
         <ul>
           {messageEvents.map((msg, i) => (
             <div key={i}>
@@ -96,7 +93,7 @@ const Chat = () => {
             </div>
           ))}
         </ul>
-        <div id='anchor'></div>
+        </div>
       </div>
       <div className='input-area'>
         <textarea
