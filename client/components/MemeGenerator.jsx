@@ -28,6 +28,17 @@ function MemeGenerator() {
       .catch((err) => console.error('no dogs ', err))
   }
 
+  // POST dog meme to cloudinary
+  const uploadDogImage = (imageUrl) => {
+    axios.post('/api/gallery', {
+      url: imageUrl
+    })
+      .then((response) => {
+        console.log('upload response: ', response.data)
+        // add cloudinary url to database here, put request
+      })
+      .catch((err) => console.error('Could not post to Cloudinary ', err))
+  }
   // function to create canvas
   const memeCanvas = () => {
     const canvas = ref.current;
@@ -44,9 +55,9 @@ function MemeGenerator() {
       context.textAlign = 'center';
       context.fillText(bottomText, (image.width * .50), (image.height * .77));
       dataUrl = canvas.toDataURL("image/jpeg");
-      console.log(dataUrl);
+      // console.log(dataUrl);
       // console.log(image.height);
-      // post(dataUrl);
+      uploadDogImage(dataUrl);
     }
    // console.log(context)
    image.src = dogImage;
