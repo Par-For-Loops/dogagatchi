@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
 });
 // creates user docs in the db
 const User = mongoose.model('User', userSchema);
+
 // schema for Dogs
 const dogSchema = new mongoose.Schema({
   name: String,
@@ -35,10 +36,18 @@ const dogSchema = new mongoose.Schema({
   breed: String,
   stories: [{story: String, date: String, likes: Number, storyId: Number}]
 });
-
 const Dog = mongoose.model('Dog', dogSchema);
+
+// schema for chat room message persistance
+const messageSchema = new mongoose.Schema({
+  message: String,
+  createdAt: { type: Date, expires: 1200, default: Date.now } //20 minute time-to-live
+})
+// 604800 should be a week of seconds
+const Message = mongoose.model('Message', messageSchema);
 
 module.exports = {
   User,
   Dog,
+  Message,
 };

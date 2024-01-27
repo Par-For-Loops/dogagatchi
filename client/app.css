@@ -436,6 +436,35 @@ body {
   margin-bottom: 20px;
 }
 
+.chat {
+  margin-right: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.chat-textarea {
+  width: 40vw;
+  height: 100px;
+  resize: vertical;
+}
+
+.message-area {
+  height: 70vh;
+  background-color: #ade3e3;
+  overflow-y: auto;
+  overflow-anchor: none;
+}
+
+#anchor {
+  overflow-anchor: auto;
+  height: 1px;
+}
+
+.input-area {
+  align-items: flex-end;
+}
+
 .map-container {
   height: 400px;
   }
