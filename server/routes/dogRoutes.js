@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const axios = require('axios');
+const dayjs = require('dayjs')
 const { Dog, User } = require('../db/index');
 
 const { OPENAI_KEY } = require('../config');
@@ -49,8 +50,11 @@ router.get('/id/:dogId', (req, res) => {
 
 //GET DOG STORY FROM EXTERNAL API AND SAVE TO DOG DB
 
-router.get('/story/:dogName', (req, res) => {
-  const { dogName } = req.params;
+router.get('/story/:dogName/breeds/:dogBreed/owners/:owner/', (req, res) => {
+  const { dogName, dogBreed, owner } = req.params;
+  const currentDate = dayjs();
+  const formattedDate = currentDate.format('MM-DD-YYYY');
+
   const headers = {
     headers: {
       authorization: `Bearer ${OPENAI_KEY}`,
@@ -59,13 +63,26 @@ router.get('/story/:dogName', (req, res) => {
 
   const body = {
     "model": "gpt-3.5-turbo-instruct",
-    "prompt": `Write a story about my dog named ${dogName}, and what he did today.`,
-    "max_tokens": 100,
-    "temperature": 0
+    "prompt": `Write a blog post about my dog named ${dogName}, he is a ${dogBreed}. The dog's owner is a man, named ${owner}. What did the dog do today? Write it from the perspective of the dog.`,
+    "max_tokens": 150,
+    "temperature": .7
   }
+
   axios.post('https://api.openai.com/v1/completions', body, headers)
   .then((response) => {
-    res.status(200).send(response.data.choices);
+    const story = {
+      story: response.data.choices[0].text,
+      date: formattedDate,
+      likes: 0
+    }
+    const filter = { name: dogName };
+    const update = { $push: { stories: story } }
+    Dog.findOneAndUpdate(filter, update, {
+      new: true
+    })
+    .then((dbResponse) => {
+      res.status(201).send(dbResponse)
+    }).catch(err => console.log(err, 'from db method'))
   })
   .catch((err) => console.log(err))
 })
@@ -75,7 +92,7 @@ router.get('/story/:dogName', (req, res) => {
 //POST DOG
 
 router.post('/', (req, res) => {
-  const { name, img, owner } = req.body;
+  const { name, img, owner, breed } = req.body;
   const status = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 
   Dog.create({
@@ -83,7 +100,8 @@ router.post('/', (req, res) => {
     img,
     owner,
     feedDeadline: status,
-    walkDeadline: status
+    walkDeadline: status,
+    breed
   })
     .then(() => {
       return User.findByIdAndUpdate(owner, { $inc: { coinCount: -15, dogCount: -1 }, $pull: { breeds: img } }, { new: true })
