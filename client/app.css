@@ -468,3 +468,28 @@ body {
 .map-container {
   height: 400px;
   }
+
+
+.meme {
+  position: relative;
+  display: inline-block;
+}
+
+.meme img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 75%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  /* background-color: #000000;  */
+  color: black; 
+  padding: 10px 20px; 
+  font-family: Arial;
+  font-size: 30px; 
+  /* text-align: center; */
+}

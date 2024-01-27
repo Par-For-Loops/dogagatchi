@@ -8,7 +8,8 @@ const session = require('express-session')
 const bcrypt = require('bcrypt')
 const flash = require('express-flash')
 require('dotenv').config()
-const cloudinary = require('cloudinary').v2;
+// const cloudinary = require('cloudinary').v2;
+const cloudinary = require('cloudinary')
 
 const userRoutes = require('./routes/userRoutes')
 const dogRoutes = require('./routes/dogRoutes')
@@ -26,7 +27,7 @@ const clientSecret = process.env.GOOGLE_CLIENT_SECRET
 const distPath = path.resolve(__dirname, '..', 'dist');
 
 // api helpers
-const { getDogImages } = require('./api/dogApi.js')
+const { getDogImage } = require('./api/dogApi.js')
 const { uploadImage } = require('./api/cloudinary.js');
 
 
@@ -147,13 +148,13 @@ app.get('/api/gallery/:breed', (req, res) => {
   // console.log(req.params);
   
   // console.log(getDogImages(breed));
-  getDogImages(breed)
+  getDogImage(breed)
     .then((response) => {
       // console.log(response.data.message);
       res.status(200).send(response.data.message)
     })
     .catch((err) => {
-      console.error('Could not GET dog images ', err);
+      console.error('Could not GET dog image ', err);
       res.sendStatus(500);
     })
 })
@@ -164,8 +165,26 @@ app.post('/api/gallery', (req, res) => {
 
   uploadImage(url)
   .then((result) => {
-    console.log('success ', result);
+    // console.log('success ', result);
     res.send(result.url).status(201);
+  })
+  .catch((err) => console.error('could not upload ', err));
+})
+
+// POST meme
+app.post('api/meme', (req, res) => {
+  const { image, transform } = req.body;
+  // const { image } = req.body;
+  // console.log('image ', image);
+  // console.log('transform ', transform);
+
+  const url = cloudinary.url(image, transform);
+  // console.log(url);
+
+  uploadImage(url)
+  .then((result) => {
+    console.log('meme success ', result);
+    // res.send(result.url).status(201);
   })
   .catch((err) => console.error('could not upload ', err));
 })
