@@ -134,6 +134,27 @@ router.put('/:_id', (req, res) => {
         });
 });
 
+
+// UPDATE USER HIDDEN BONES ARRAY BY USERNAME
+router.put('/hiddenBones/:username', (req, res) => {
+    const { username } = req.params
+    const body = req.body
+    User.findOneAndUpdate({username: username}, { $push: { hiddenBones: body }}, {new: true})
+    .then((userObj) => {
+        if(userObj){
+            res.status(200).send(userObj)
+        } else {
+            res.sendStatus(404)
+        }
+        // res.status(200).send(userObj)
+    })
+    .catch((err) => {
+        console.error('hiddenBones update did not succeed:', err )
+        res.sendStatus(500)
+    })
+})
+
+
 // **************** DELETE ROUTES ********************
 
 // DELETE USER BY USER ID

@@ -23,6 +23,8 @@ function MyMap() {
         });
         createMarker()
         clickForNewMarker()
+        let thisUser = JSON.parse(sessionStorage.user)
+        console.log(thisUser.username)
     });
     
     
@@ -60,12 +62,13 @@ function MyMap() {
             <div>
                 <div ref={mapContainer} className="map-container" ></div>
             </div>
-            <button>Click to save Points</button>
             <h1 id='lngg' >longitude: {lng}</h1>
             <h1 id='latt' >latitude: {lat}</h1>
             <label htmlFor="boneLocation">Bone Note</label>
             {' '}
             <input type="text" name="" id="boneLocation" placeholder='Hide A Bone' />
+            <br />
+            <button>Click to save Point</button>
             <br />
             <button>Bone Locator</button>
         </div>
