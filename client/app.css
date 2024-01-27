@@ -444,21 +444,65 @@ body {
 }
 
 .chat-textarea {
-  width: 40vw;
-  height: 100px;
+  width: 50vw;
+  height: 10vw;
+  border-radius: 20px;
+  border-color: transparent;
+  padding: 10px;
   resize: vertical;
 }
 
 .message-area {
   height: 70vh;
-  background-color: #ade3e3;
   overflow-y: auto;
   overflow-anchor: none;
 }
 
-#anchor {
-  overflow-anchor: auto;
-  height: 1px;
+.message {
+  margin: 10px;
+}
+
+.msg-name {
+  font-weight: bold;
+}
+
+.msg-content {
+  background-color:#eaeaea;
+  border-radius: 20px;
+  padding: 5px;
+  max-width: 66vw;
+  clear: both;
+  display: inline-block;
+}
+
+.msg-time {
+  font-style: oblique;
+  font-size: smaller;
+}
+
+.right-message {
+  margin: 10px;
+  display: grid;
+  justify-items: end;
+}
+
+.right-msg-name {
+  font-weight: bold;
+}
+
+.right-msg-content {
+  background-color: var(--color-primary);
+  border-radius: 20px;
+  padding: 5px;
+  max-width: 66vw;
+  clear: both;
+  display: inline-block;
+  color:#ffffff;
+}
+
+.right-msg-time {
+  font-style: oblique;
+  font-size: smaller;
 }
 
 .input-area {
