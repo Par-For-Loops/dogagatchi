@@ -1,6 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import axios from 'axios';
 
 function MemeGenerator() {
@@ -61,8 +64,12 @@ function MemeGenerator() {
       canvas.height = image.height;
 
       context.drawImage(image, 0, 0);
-      context.font = "30px Arial";
+      context.font = "40px Impact";
       context.textAlign = 'center';
+      context.strokeStyle = 'white';
+      context.lineWidth = 2;
+      context.strokeText(bottomText, (image.width * .50), (image.height * .77));
+      // context.stroke();
       context.fillText(bottomText, (image.width * .50), (image.height * .77));
       dataUrl = canvas.toDataURL("image/jpeg");
       //console.log(dataUrl);
@@ -73,10 +80,7 @@ function MemeGenerator() {
    image.crossOrigin="anonymous";
 
   }
-  // calls memeCanvas, to test
-  // useEffect(() => {
-  //   memeCanvas();
-  // })
+  
   const handleImageSearch = () => {
     getDogPic(search);
   }
@@ -86,39 +90,44 @@ function MemeGenerator() {
     memeCanvas();
   }
 
+  // calls memeCanvas, to test
+  useEffect(() => {
+    getDogPic('corgi');
+  }, []);
+
   return (
-    <div>
+    <Container>
       {/* <Canvas width="500" height="400"/> */}
       <canvas ref={ref} hidden="hidden" />
-      <input
-        type="text"
-        value={search}
-        placeholder="Search dog breed"
-        // onKeyDown={(e) => {
-        //   if (search.length > 0 && e.key === 'Enter') {
-        //     keywordSearch(search);
-        //     setSearch('');
-        //   }
-        // }}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <br />
-      <Button
-        type="button"
-        onClick={handleImageSearch}
-      >
-        Search
-      </Button>
-      <br />
-      <Form className="meme-form" >
-        <input 
-          type="text"
-          name="bottomText"
-          value={bottomText}
-          placeholder="Enter text"
-          onChange={(e) => setBottomText(e.target.value)}
-        />
-      </Form>
+      <Row>
+        <Col>
+          <input
+            type="text"
+            size="25"
+            value={search}
+            placeholder="Search dog breed"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Button
+            type="button"
+            style={{ width: '100px'}}
+            onClick={handleImageSearch}
+          >
+            Search
+          </Button>
+        <br />
+          <Form className="meme-form" >
+            <input 
+              type="text"
+              size="25"
+              name="bottomText"
+              value={bottomText}
+              placeholder="Enter text"
+              onChange={(e) => setBottomText(e.target.value)}
+            />
+          </Form>
+        </Col>
+      </Row>
       <br />
       <div className="meme">
         <img src={dogImage} alt="" />
@@ -126,7 +135,7 @@ function MemeGenerator() {
       </div>
       <br />
       <Button onClick={handleClick}>Save Meme</Button>
-    </div>
+    </Container>
   )
 }
 
