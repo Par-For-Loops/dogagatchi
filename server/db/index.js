@@ -48,8 +48,7 @@ const Message = mongoose.model('Message', messageSchema);
 
 const memeGallerySchema = new mongoose.Schema({
   img: String,
-  createdAt: { type: Date }
-})
+}, { timestamps: true})
 const Meme = mongoose.model('Meme', memeGallerySchema);
 
 module.exports = {

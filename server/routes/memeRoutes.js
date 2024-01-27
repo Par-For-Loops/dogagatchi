@@ -20,6 +20,7 @@ router.post('/post', (req, res) => {
 // GET meme images
 router.get('/', (req, res) => {
   Meme.find()
+    .sort({ createdAt: -1 })
     .then((memes) => {
       // console.log(data);
       res.send(memes).status(200);
