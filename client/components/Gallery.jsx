@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
 function Gallery() {
   // // state variable for dog pics
-  // const [dogGallery, setDogGallery] = useState([])
+  const [memeGallery, setMemeGallery] = useState([])
   // // 'search' for dog pics
   // function getDogPics(breedName) {
   //   // axios get request
@@ -32,6 +32,22 @@ function Gallery() {
   //   uploadDogImage(image);
   // }
 
+  const getMemes = () => {
+    axios.get('/memes')
+      .then(({data}) => {
+        // console.log(data);
+        setMemeGallery(data)
+      })
+      .catch((err) => {
+        console.error(err)
+      });
+  }
+
+  useEffect(() => {
+    getMemes();
+  }, [])
+
+
   return (
     <div>
       {/* <button
@@ -54,6 +70,15 @@ function Gallery() {
         ))
       }
       </ul> */}
+      <ul className="meme-gallery">
+        {
+          memeGallery.map((meme) => (
+            <li key={meme._id}>
+              <img src={meme.url} alt={meme._id} />
+            </li>
+          ))
+        }
+      </ul>
     </div>
 
   )

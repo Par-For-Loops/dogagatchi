@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-// import Canvas from './Canvas.jsx';
-
-// const cloudinary = require('cloudinary');
 
 function MemeGenerator() {
   const ref = useRef();
@@ -12,8 +9,7 @@ function MemeGenerator() {
   const [search, setSearch] = useState('')
   // state text variables
   const [bottomText, setBottomText] = useState('');
-  // state image variable? would have to be passed down as props
-  // data Url variable, will be state
+
   let dataUrl;
 
   // search for a dog pic
@@ -28,14 +24,27 @@ function MemeGenerator() {
       .catch((err) => console.error('no dogs ', err))
   }
 
+  // POST meme to db
+  const postToGallery = (url) => {
+    axios.post('/memes/post', {
+      meme: {
+        img: url
+      }
+    })
+    .then(() => console.log('POSTed to db ', response))
+    .catch(err => console.error('Could not POST to db ', err));
+  }
+
   // POST dog meme to cloudinary
   const uploadDogImage = (imageUrl) => {
+    //console.log(imageUrl)
     axios.post('/api/gallery', {
       url: imageUrl
     })
       .then((response) => {
         console.log('upload response: ', response.data)
         // add cloudinary url to database here, put request
+        postToGallery(response.data)
       })
       .catch((err) => console.error('Could not post to Cloudinary ', err))
   }
@@ -48,15 +57,13 @@ function MemeGenerator() {
     image.onload = function() {
       canvas.width = image.width;
       canvas.height = image.height;
-      // console.log(image.width);
-      // console.log(image.height);
+
       context.drawImage(image, 0, 0);
       context.font = "30px Arial";
       context.textAlign = 'center';
       context.fillText(bottomText, (image.width * .50), (image.height * .77));
       dataUrl = canvas.toDataURL("image/jpeg");
-      // console.log(dataUrl);
-      // console.log(image.height);
+      //console.log(dataUrl);
       uploadDogImage(dataUrl);
     }
    // console.log(context)

@@ -46,8 +46,15 @@ const messageSchema = new mongoose.Schema({
 // 604800 should be a week of seconds
 const Message = mongoose.model('Message', messageSchema);
 
+const memeGallerySchema = new mongoose.Schema({
+  img: String,
+  user: String,
+})
+const Meme = mongoose.model('Meme', memeGallerySchema);
+
 module.exports = {
   User,
   Dog,
   Message,
+  Meme,
 };
