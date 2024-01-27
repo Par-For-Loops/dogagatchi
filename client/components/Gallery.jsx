@@ -4,6 +4,7 @@ import axios from 'axios';
 function Gallery() {
   // // state variable for dog pics
   const [memeGallery, setMemeGallery] = useState([])
+  const [loaded, setLoaded] = useState(false);
   // // 'search' for dog pics
   // function getDogPics(breedName) {
   //   // axios get request
@@ -14,22 +15,6 @@ function Gallery() {
   //       setDogGallery(response.data);
   //     })
   //     .catch((err) => console.error('no dogs ', err))
-  // }
-  // // axios post to upload dog imgs
-  // // should take in a URL 
-  // function uploadDogImage(imageUrl) {
-  //   axios.post('/api/gallery', {
-  //     url: imageUrl
-  //   })
-  //     .then((response) => {
-  //       console.log('upload response: ', response.data)
-  //       // add cloudinary url to database here, put request
-  //     })
-  //     .catch((err) => console.error('Could not post to Cloudinary ', err))
-  // }
-  // // handleImageClick function to send image URL to cloudinary post req
-  // function handleImageClick(image) {
-  //   uploadDogImage(image);
   // }
 
   const getMemes = () => {
@@ -45,6 +30,7 @@ function Gallery() {
 
   useEffect(() => {
     getMemes();
+ 
   }, [])
 
 
@@ -70,18 +56,52 @@ function Gallery() {
         ))
       }
       </ul> */}
-      <ul className="meme-gallery">
+      <ul>
         {
           memeGallery.map((meme) => (
             <li key={meme._id}>
-              <img src={meme.url} alt={meme._id} />
+              <img 
+                // style={{ width: '300px', height: 'auto' }}
+                style={loaded ? { width: '300px', height: 'auto' } : { display: 'none' }}
+                src={meme.img} 
+                alt={meme._id} 
+                onLoad={() => {
+                  // console.log(meme.createdAt)
+                  setLoaded(true)
+                }}
+              />
             </li>
           ))
         }
       </ul>
     </div>
-
-  )
-}
+  );
+};
 
 export default Gallery;
+
+          // memeGallery.map((meme) => {
+          //   let img = new Image();
+          //   img.onload = () => (
+          //     <li key={meme._id}>
+          //       <img 
+          //         style={{ width: '300px', height: 'auto' }}
+          //         src={img.src} 
+          //         alt={meme._id} />
+          //    </li>
+          //   );
+          //   img.src = meme.url;
+          // })
+        //   <ul className="meme-gallery">
+        //   {/* <img src='http://res.cloudinary.com/dsxmv5yjt/image/upload/v1706370861/sburb6myaf0m4pttcvyn.jpg' alt="" /> */}
+        //   {
+        //     memeGallery.map((meme) => (
+        //       <li key={meme._id}>
+        //         <img 
+        //           style={{ width: '300px', height: 'auto' }}
+        //           src={meme.url} 
+        //           alt={meme._id} />
+        //       </li>
+        //     ))
+        //   }
+        // </ul>

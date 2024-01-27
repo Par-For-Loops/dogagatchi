@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 
 function MemeGenerator() {
@@ -100,36 +102,30 @@ function MemeGenerator() {
         // }}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <button
+      <br />
+      <Button
         type="button"
         onClick={handleImageSearch}
       >
         Search
-      </button>
-      <form className="meme-form" >
-        {/* <input 
-          type="text"
-          name="topText"
-          value={topText}
-          onChange={(e) => {
-            setTopText(e.target.value);
-          }}
-        /> */}
+      </Button>
+      <br />
+      <Form className="meme-form" >
         <input 
           type="text"
           name="bottomText"
           value={bottomText}
-          placeholder="arf arf"
+          placeholder="Enter text"
           onChange={(e) => setBottomText(e.target.value)}
         />
-        <button>Submit</button>
-      </form>
-        <div className="meme">
-          <img src={dogImage} alt="" />
-          <div className="overlay-text">{bottomText}</div>
-          {/* <h2 className="bottom">{bottomText}</h2> */}
-        </div>
-        <button onClick={handleClick}>Save Meme</button>
+      </Form>
+      <br />
+      <div className="meme">
+        <img src={dogImage} alt="" />
+        <div className="overlay-text">{bottomText}</div>
+      </div>
+      <br />
+      <Button onClick={handleClick}>Save Meme</Button>
     </div>
   )
 }
