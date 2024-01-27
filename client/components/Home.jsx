@@ -34,7 +34,8 @@ const Home = () => {
                 <Button className='boot-button'>Chat 💬</Button>
             </Link>
             <Link to="/dogblog">
-                <Button className='boot-button'>Dog Blog ✏️</Button>
+                 <Button className='boot-button'>Dog Blog ✏️</Button>
+            </Link>
             <Link to="/gallery">
                 <Button className='boot-button'>Gallery 🖼️</Button>
             </Link>
