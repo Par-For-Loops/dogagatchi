@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Container, Row, Col, Image, Card } from "react-bootstrap";
 import axios from "axios";
 
 function DogBlog() {
@@ -8,6 +8,7 @@ function DogBlog() {
   const [userId, setUserId] = useState(user._id);
   const [dogStory, setDogStory] = useState([]);
   const [dogArray, setDogArray] = useState([]);
+  const [dogPic, setDogPic] = useState('');
 
   // get users dogs from db and set breeds list
   const getDogs = () => {
@@ -24,7 +25,8 @@ function DogBlog() {
   const getStory = (dog, breed, owner) => {
     axios(`/dog/story/${dog}/breeds/${breed}/owners/${owner}/`)
       .then(({ data }) => {
-        setDogStory(data.stories);
+        console.log(data.stories)
+        setDogStory(data.stories.reverse());
       })
       .catch((err) => console.log(err, "post story failed"));
   };
@@ -35,14 +37,17 @@ function DogBlog() {
     ) : (
       dogArray.map((dog, index) => {
         return (
-          <div key={index}>
-            <div className="dog-name"> Name: {dog.name}</div>
-            <img src={dog.img} style={{ width: "250px" }} />
-            <div className="dog-breed"> Breed: {dog.breed}</div>
-            <Button onClick={() => handleClick(dog.name, dog.breed, user.username)}>
-              `What did {dog.name} do today?`
-            </Button>
-          </div>
+          <Col key={index}>
+             <Image src={dog.img} style={{ width: "250px" }} />
+             <Card.Body className='d-flex flex-column'>
+               <Card.Title id="dog-name">{dog.name}</Card.Title>
+               <Button
+               variant="primary"
+               type="submit"
+               onClick={() => handleClick(dog.name, dog.breed, user.username, dog.img)}>Check out {dog.name}'s blog?
+               </Button>
+             </Card.Body>
+          </Col>
         );
       })
     );
@@ -50,18 +55,22 @@ function DogBlog() {
   // create an element for the dog story
   const story =
     dogStory.length === 0 ? (
-      <div>My life as a dog...</div>
+      <h2>My life as a dog...</h2>
     ) : (
       <div>
-        My life as a dog...
+        <h2>My life as a dog...</h2>
         {
         dogStory.map((story, index) => {
           return (
-            <div
-              key={index}>
-              <h3 className="blog-date">Date: {story.date}</h3>
+            <Row key={index}>
+              <Col sm={2}>
+              <Image src={dogPic} roundedCircle style={{ width: "150px" }} />
+              </Col>
+              <Col sm={10}>
+               <h3 className="blog-date">{story.date}</h3>
               {story.story}
-            </div>
+              </Col>
+            </Row>
           )
         })
         }
@@ -69,8 +78,9 @@ function DogBlog() {
     );
 
   // create a handle click function to call axios request and render returned story with data
-  const handleClick = (dog, breed, owner) => {
+  const handleClick = (dog, breed, owner, img) => {
     getStory(dog, breed, owner);
+    setDogPic(img)
   };
 
   useEffect(() => {
@@ -79,11 +89,28 @@ function DogBlog() {
   }, []);
 
   return (
-    <div>
-      <h1>Dog Blog!</h1>
-      {dogList2}
-      {story}
-    </div>
+    <Container>
+       <Row>
+      <Col xs={1}>
+        </Col>
+        <Col xs={10} style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <h1>The Dog Blog</h1>
+        </Col>
+        <Col xs={1}>
+        </Col>
+      </Row>
+      <Row>
+        {dogList2}
+      </Row>
+      <Row>
+       {story} 
+      </Row>
+    </Container>
   );
 }
 

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const axios = require('axios');
+const dayjs = require('dayjs')
 const { Dog, User } = require('../db/index');
 
 const { OPENAI_KEY } = require('../config');
@@ -51,6 +52,8 @@ router.get('/id/:dogId', (req, res) => {
 
 router.get('/story/:dogName/breeds/:dogBreed/owners/:owner/', (req, res) => {
   const { dogName, dogBreed, owner } = req.params;
+  const currentDate = dayjs();
+  const formattedDate = currentDate.format('MM-DD-YYYY');
 
   const headers = {
     headers: {
@@ -69,7 +72,8 @@ router.get('/story/:dogName/breeds/:dogBreed/owners/:owner/', (req, res) => {
   .then((response) => {
     const story = {
       story: response.data.choices[0].text,
-      date: response.headers.date
+      date: formattedDate,
+      likes: 0
     }
     const filter = { name: dogName };
     const update = { $push: { stories: story } }
