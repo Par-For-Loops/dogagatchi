@@ -37,6 +37,7 @@ function App() {
             <Route path='/about' element={<div><NavBar/><About/></div>}/>
             </Route>
             <Route path='/gallery' element={<div><NavBar/><Gallery/></div>}/>
+            <Route path='/dogblog' element={<div><NavBar/><DogBlog/></div>}/>
             <Route path='/memeGenerator' element={<MemeGenerator />}/>
             <Route path='/' element={<Login/>}/>
             <Route path='deleted' element={<DeletedUser/>}/>
