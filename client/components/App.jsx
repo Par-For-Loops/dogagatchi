@@ -17,6 +17,8 @@ import DeletedUser from './DeletedUser.jsx';
 import MyMap from './Map.jsx';
 import DogBlog from './DogBlog.jsx';
 import Gallery from './Gallery.jsx';
+import MemeGenerator from './MemeGenerator.jsx';
+
 function App() {
   return (
     
@@ -36,6 +38,7 @@ function App() {
             </Route>
             <Route path='/gallery' element={<div><NavBar/><Gallery/></div>}/>
             <Route path='/dogblog' element={<div><NavBar/><DogBlog/></div>}/>
+            <Route path='/memeGenerator' element={<MemeGenerator />}/>
             <Route path='/' element={<Login/>}/>
             <Route path='deleted' element={<DeletedUser/>}/>
         </Routes>
