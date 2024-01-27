@@ -32,7 +32,26 @@ function DogShop(props) {
     console.log('hit', img)
     setDogView(img)
   }
-
+  //Parses dog breed from img url string
+  const findBreed = (string) => {
+    let breed = [];
+    let tempBreed;
+    for (let i = 30; i < string.length; i ++) {
+      if (string[i] !== '/') {
+        breed.push(string[i])
+      } else {
+        tempBreed = breed.join("")
+         if (tempBreed.includes('-')) {
+      let index = tempBreed.indexOf('-')
+      let end = tempBreed.slice(0, index)
+      let start = tempBreed.slice(index + 1, tempBreed.length)
+      return start + " " + end
+    } else {
+      return tempBreed
+    }
+      }
+    }
+  }
   const handleSubmit = () => {
     if (dogView === "" || dogName === "") {
       alert("Fill all fields");
@@ -42,6 +61,7 @@ function DogShop(props) {
           name: dogName,
           img: dogView,
           owner: userId,
+          breed: findBreed(dogView)
         })
         .then(({ data }) => {
           setCoins(data.coinCount);
