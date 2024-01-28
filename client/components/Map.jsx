@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-// import Button from 'react-bootstrap'
+import Button from 'react-bootstrap'
 import axios from 'axios'
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3ljb2RlZSIsImEiOiJjbHJxcndwam8wNmZsMmtwOXUyZ3JjNXo2In0.yLXXdweemHobMUJlc9GXvg';
@@ -12,6 +12,7 @@ function MyMap() {
     const [lat, setLat] = useState(30.008068345656227);
     const [zoom, setZoom] = useState(13);
     const [allMarkers, setMarkers] = useState([])
+    const [boneComment, addComment] = useState('')
     // Set marker options.
     
     useEffect(() => {
@@ -24,46 +25,25 @@ function MyMap() {
         });
         createMarker()
         clickForNewMarker()
-        let thisUser = JSON.parse(sessionStorage.user)
-        console.log(thisUser.username)
         retrieveAllMarkers()
-        // clickToShowBones()
-        
-        // axios.get(`/user/hiddenBones/${thisUser.username}`)
-        // .then((hiddenBonesArr) => {
-        //     setMarkers(hiddenBonesArr.data)
-        // })
-            
-    
         clickToShowBones()
-
     });
     
     
     function createMarker() {
-        // var coordinates = e.lngLat
-        // console.log(coordinates)
         map.marker = new mapboxgl.Marker({
             color: "orange",
             draggable: false
-        })
-        // .setLngLat([lng, lat])
-        //     .addTo(map.current);
-        
+        }) 
         .setLngLat([lng, lat])
             .addTo(map.current);
-        const lngLat = map.marker.getLngLat()
-        console.log(lngLat)
     }
       
     function clickForNewMarker(){
         map.current.on('click', (e) => {
-            // setLng(e.lngLat.lng)
-            // setLat(e.lngLat.lat)
             let coordinates = e.lngLat
             map.marker.setLngLat(coordinates)
             .addTo(map.current);
-            console.log(e.lngLat)
             setLng(e.lngLat.lng)
             setLat(e.lngLat.lat)
         })
@@ -72,7 +52,7 @@ function MyMap() {
 
     function retrieveAllMarkers(){
         let thisUser = JSON.parse(sessionStorage.user)
-        console.log(thisUser.username)
+        // console.log(thisUser.username)
         axios.get(`/user/hiddenBones/${thisUser.username}`)
         .then((hiddenBonesArr) => {
             setMarkers(hiddenBonesArr.data)
@@ -80,35 +60,58 @@ function MyMap() {
     }
 
     function clickToShowBones() {
-        // let thisUser = JSON.parse(sessionStorage.user)
-        // let boneLocator = document.getElementById('boneLocator')
-        // boneLocator.addEventListener('click', () => {
-        //     // console.log('bonieee locator')
-        // //     axios.get(`/user/hiddenBones/${thisUser.username}`)
-        // // .then((hiddenBonesArr) => {
-        // //     setMarkers(hiddenBonesArr.data)
-        // // })
-        console.log(allMarkers)
-            
-            
-        // })
-        // console.log(thisUser.username)
-        // console.log('this is the bone locator function')
+        // console.log(allMarkers)
+        for(let i = 0; i < allMarkers.length; i++){
+            const popup = new mapboxgl.Popup({ offset: 25 }).setText(allMarkers[i].boneNote);
+            new mapboxgl.Marker({
+                color: "blue",
+                draggable: false
+            })
+            .setLngLat([allMarkers[i].lng, allMarkers[i].lat])
+            .setPopup(popup)
+                .addTo(map.current);
+        }
+       
     }
 
+
+
+    function addCommentOnClick() {
+        // addComment
+        let thisUser = JSON.parse(sessionStorage.user)
+            // put request to send location to db
+            axios.put(`/user/hiddenBones/${thisUser.username}`, {
+                lng: lng, 
+                lat: lat, 
+                boneNote: boneComment
+            })
+            .then((userObj) => {
+                console.log('successfully added put request on location click')
+                // setMarkers(userObj.hiddenBones)
+            })
+            .catch((err) => {
+                console.log('unsucessful put request on click of location', err)
+            })
+    }
     
+
+    function handleChange(e) {
+        // console.log(e.target.value)
+        addComment(e.target.value)
+    }
+
+
       return (
         <div>
             <div>
                 <div ref={mapContainer} className="map-container" ></div>
             </div>
-            <h1 id='lngg' >longitude: {lng}</h1>
-            <h1 id='latt' >latitude: {lat}</h1>
+            
             <label htmlFor="boneLocation">Bone Note</label>
             {' '}
-            <input type="text" name="" id="boneLocation" placeholder='Hide A Bone' />
+            <input type="text" name="" id="boneLocation" placeholder='Hide A Bone' onChange={handleChange}/>
             <br />
-            <button>Click to save Point</button>
+            <button onClick={addCommentOnClick}>Click to save Point</button>
             <br />
             <button id='boneLocator' onClick={clickToShowBones}>Bone Locator</button>
         </div>
