@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import axios from 'axios';
-// import Canvas from './Canvas.jsx';
-
-// const cloudinary = require('cloudinary');
 
 function MemeGenerator() {
   const ref = useRef();
@@ -12,8 +14,7 @@ function MemeGenerator() {
   const [search, setSearch] = useState('')
   // state text variables
   const [bottomText, setBottomText] = useState('');
-  // state image variable? would have to be passed down as props
-  // data Url variable, will be state
+
   let dataUrl;
 
   // search for a dog pic
@@ -28,14 +29,27 @@ function MemeGenerator() {
       .catch((err) => console.error('no dogs ', err))
   }
 
+  // POST meme to db
+  const postToGallery = (url) => {
+    axios.post('/memes/post', {
+      meme: {
+        img: url
+      }
+    })
+    .then(() => console.log('POSTed to db ', response))
+    .catch(err => console.error('Could not POST to db ', err));
+  }
+
   // POST dog meme to cloudinary
   const uploadDogImage = (imageUrl) => {
+    //console.log(imageUrl)
     axios.post('/api/gallery', {
       url: imageUrl
     })
       .then((response) => {
         console.log('upload response: ', response.data)
         // add cloudinary url to database here, put request
+        postToGallery(response.data)
       })
       .catch((err) => console.error('Could not post to Cloudinary ', err))
   }
@@ -48,15 +62,17 @@ function MemeGenerator() {
     image.onload = function() {
       canvas.width = image.width;
       canvas.height = image.height;
-      // console.log(image.width);
-      // console.log(image.height);
+
       context.drawImage(image, 0, 0);
-      context.font = "30px Arial";
+      context.font = "40px Impact";
       context.textAlign = 'center';
+      context.strokeStyle = 'white';
+      context.lineWidth = 2;
+      context.strokeText(bottomText, (image.width * .50), (image.height * .77));
+      // context.stroke();
       context.fillText(bottomText, (image.width * .50), (image.height * .77));
       dataUrl = canvas.toDataURL("image/jpeg");
-      // console.log(dataUrl);
-      // console.log(image.height);
+      //console.log(dataUrl);
       uploadDogImage(dataUrl);
     }
    // console.log(context)
@@ -64,10 +80,7 @@ function MemeGenerator() {
    image.crossOrigin="anonymous";
 
   }
-  // calls memeCanvas, to test
-  // useEffect(() => {
-  //   memeCanvas();
-  // })
+  
   const handleImageSearch = () => {
     getDogPic(search);
   }
@@ -77,53 +90,52 @@ function MemeGenerator() {
     memeCanvas();
   }
 
+  // calls memeCanvas, to test
+  useEffect(() => {
+    getDogPic('corgi');
+  }, []);
+
   return (
-    <div>
+    <Container>
       {/* <Canvas width="500" height="400"/> */}
       <canvas ref={ref} hidden="hidden" />
-      <input
-        type="text"
-        value={search}
-        placeholder="Search dog breed"
-        // onKeyDown={(e) => {
-        //   if (search.length > 0 && e.key === 'Enter') {
-        //     keywordSearch(search);
-        //     setSearch('');
-        //   }
-        // }}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <button
-        type="button"
-        onClick={handleImageSearch}
-      >
-        Search
-      </button>
-      <form className="meme-form" >
-        {/* <input 
-          type="text"
-          name="topText"
-          value={topText}
-          onChange={(e) => {
-            setTopText(e.target.value);
-          }}
-        /> */}
-        <input 
-          type="text"
-          name="bottomText"
-          value={bottomText}
-          placeholder="arf arf"
-          onChange={(e) => setBottomText(e.target.value)}
-        />
-        <button>Submit</button>
-      </form>
-        <div className="meme">
-          <img src={dogImage} alt="" />
-          <div className="overlay-text">{bottomText}</div>
-          {/* <h2 className="bottom">{bottomText}</h2> */}
-        </div>
-        <button onClick={handleClick}>Save Meme</button>
-    </div>
+      <Row>
+        <Col>
+          <input
+            type="text"
+            size="25"
+            value={search}
+            placeholder="Search dog breed"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Button
+            type="button"
+            style={{ width: '100px'}}
+            onClick={handleImageSearch}
+          >
+            Search
+          </Button>
+        <br />
+          <Form className="meme-form" >
+            <input 
+              type="text"
+              size="25"
+              name="bottomText"
+              value={bottomText}
+              placeholder="Enter text"
+              onChange={(e) => setBottomText(e.target.value)}
+            />
+          </Form>
+        </Col>
+      </Row>
+      <br />
+      <div className="meme">
+        <img src={dogImage} alt="" />
+        <div className="overlay-text">{bottomText}</div>
+      </div>
+      <br />
+      <Button onClick={handleClick}>Save Meme</Button>
+    </Container>
   )
 }
 

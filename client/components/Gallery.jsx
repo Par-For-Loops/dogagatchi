@@ -1,62 +1,84 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
 function Gallery() {
-  // // state variable for dog pics
-  // const [dogGallery, setDogGallery] = useState([])
-  // // 'search' for dog pics
-  // function getDogPics(breedName) {
-  //   // axios get request
-  //   // console.log(breedName);
-  //   axios.get(`/api/gallery/${breedName}`)
-  //     .then((response) => {
-  //       // console.log('dog data ', response.data);
-  //       setDogGallery(response.data);
-  //     })
-  //     .catch((err) => console.error('no dogs ', err))
-  // }
-  // // axios post to upload dog imgs
-  // // should take in a URL 
-  // function uploadDogImage(imageUrl) {
-  //   axios.post('/api/gallery', {
-  //     url: imageUrl
-  //   })
-  //     .then((response) => {
-  //       console.log('upload response: ', response.data)
-  //       // add cloudinary url to database here, put request
-  //     })
-  //     .catch((err) => console.error('Could not post to Cloudinary ', err))
-  // }
-  // // handleImageClick function to send image URL to cloudinary post req
-  // function handleImageClick(image) {
-  //   uploadDogImage(image);
-  // }
+  // state variables
+  const [memeGallery, setMemeGallery] = useState([])
+  const [loaded, setLoaded] = useState(false);
+
+  // GET meme objects from db
+  const getMemes = () => {
+    axios.get('/memes')
+      .then(({data}) => {
+        // console.log(data);
+        setMemeGallery(data)
+      })
+      .catch((err) => {
+        console.error(err)
+      });
+  }
+
+  // PUT to update likes
+  const updateLikes = (id) => {
+    axios.put(`/memes/${id}`, {
+      meme: {
+        likes: meme.likes++
+      }
+    })
+    .then((response) => console.log(response))
+    .catch((err) => console.log(err))
+  }
+
+  const handleClick = (meme) => {
+    // console.log(img._id)
+    updateLikes(meme._id)
+  }
+
+  // call getMemes on page render
+  useEffect(() => {
+    getMemes();
+ 
+  }, [])
+
 
   return (
-    <div>
-      {/* <button
-        type="button"
-        onClick={() => {
-          // console.log('hi')
-          getDogPics('corgi');
-        }}
-      >Click me</button>
-      <ul>
-      {
-        dogGallery.map((image, i) => (
-          <li key={i}>
-            <img 
-              src={image} 
-              alt={i}
-              onClick={() => handleImageClick(image)}
-            />
-          </li>
-        ))
-      }
-      </ul> */}
-    </div>
-
-  )
-}
+    <Container className="meme-gallery">
+      <Row align="center" gap={3} style={{ listStyleType: 'none', paddingTop: '20px' }}>
+        {
+          memeGallery.map((meme) => (
+            <Col className="gallery-column" key={meme._id}>
+              <img
+                className="gallery-image"
+                style={loaded ? { width: '300px', height: 'auto' } : { display: 'none' }}
+                src={meme.img} 
+                alt={meme._id} 
+                onLoad={() => {
+                  setLoaded(true)
+                }}
+              />
+              <Container>
+                <Button 
+                  variant="outline-light"
+                  size="sm"
+                  type="submit"
+                  onClick={() => handleClick(meme)}
+                >🙂</Button>
+                <Button
+                  variant="outline-light"
+                  size="sm"
+                  type="submit"
+                >🫤</Button>
+              </Container>
+            </Col>
+          ))
+        }
+      </Row>
+    </Container>
+  );
+};
 
 export default Gallery;
