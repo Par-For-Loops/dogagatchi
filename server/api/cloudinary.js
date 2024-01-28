@@ -7,10 +7,6 @@ const uploadImage = (imageUrl) => {
   .upload(imageUrl, {
     resource_type: 'image',
   })
-    // .then((result) => {
-    //   console.log('success ', JSON.stringify(result))
-    // })
-    // .catch((err) => console.error('could not upload ', err));
 }
 
 

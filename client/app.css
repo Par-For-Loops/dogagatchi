@@ -526,6 +526,7 @@ body {
 .meme img {
   display: block;
   width: 100%;
+  /* max-width: 400px; */
   height: auto;
 }
 
@@ -537,7 +538,16 @@ body {
   /* background-color: #000000;  */
   color: black; 
   padding: 10px 20px; 
-  font-family: Arial;
-  font-size: 30px; 
+  font-family: Impact;
+  font-size: 40px; 
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
   /* text-align: center; */
+}
+
+.gallery-column {
+  padding-bottom: 20px;
+}
+.gallery-image {
+  box-shadow: 2px 2px 2px rgb(104, 103, 103);;
 }
