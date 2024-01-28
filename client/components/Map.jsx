@@ -88,6 +88,8 @@ function MyMap() {
             .then((userObj) => {
                 console.log('successfully added put request on location click')
                 // setMarkers(userObj.hiddenBones)
+                let inputBox = document.getElementById('boneLocation')
+                inputBox.value = ''
             })
             .catch((err) => {
                 console.log('unsucessful put request on click of location', err)
