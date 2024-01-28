@@ -40,6 +40,7 @@ Only three environment variables require assigning to serve/deploy Dogagatchi+:
 1. MongoDB Atlas database connection string (see above and below)
 2. Google Passport Client ID
 3. Google Passport Client Secret
+4. Cloudinary
 
 Checkout config.js in the server folder to see the three in action, and define them for your version in the .env file (which is not tracked by git and will therefore not show up when you pull the repo down).
 
@@ -48,8 +49,11 @@ Your .env file should look like this:
 ATLAS_URI=<<someConnectionString>>
 GOOGLE_CLIENT_ID=<<someClientId>>
 GOOGLE_CLIENT_SECRET=<<someClientSecret>>
+CLOUDINARY_URL=<<someCloudinaryAPIEnvironmentVariable>>
 
 Checkout this link to learn about configuring Passport for Google Authentication: https://developers.google.com/identity/protocols/oauth2. You'll need to set up a project in Google Cloud Platform and configure the Client ID and Secret in the API's & Services section.
+
+Go to: https://cloudinary.com/pricing and select free account. After you sign up you can find your API environment variable in your cloudinary console dashboard.
 
 # Database
 

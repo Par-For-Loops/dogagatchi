@@ -25,24 +25,51 @@ router.get('/', (req, res) => {
       // console.log(data);
       res.send(memes).status(200);
     })
-    .then(err => {
+    .catch(() => {
       // console.error('error ', err)
+      res.sendStatus(500)
     })
 })
 
 // PUT find by id and update
 router.put('/:memeId', (req, res) => {
   const { memeId } = req.params;
-  const { likes } = req.body.meme;
+  // const { likes } = req.body.meme;
   // console.log(memeId);
 
-  Meme.updateOne({_id: memeId }, { likes })
-    .then(data => {
-      console.log('put success ', data);
-      // if (data.modifiedCount === -2) {
-      //   Meme.findByIdAndDelete(memeId)
-      // } 
+  Meme.findByIdAndUpdate({_id: memeId }, { $inc: { likes: 1 } }, { new: true})
+    .then(() => {
+      // console.log('put success ', data);
       res.sendStatus(200)
+    })
+    .catch( err => {
+      console.error('could not update ', err)
+      res.sendStatus(500)
+    })
+})
+
+// PUT dislike meme
+router.put('/dislike/:memeId', (req, res) => {
+  const { memeId } = req.params;
+  // const { likes } = req.body.meme;
+  // console.log(memeId);
+
+  Meme.findByIdAndUpdate({_id: memeId }, { $inc: { likes: -1 } }, { new: true})
+    .then(data => {
+      // console.log('put success ', data);
+      if (data.likes === -2) {
+        Meme.findByIdAndDelete(memeId)
+          .then(() => {
+            // console.log("deleted ", data)
+            res.sendStatus(200)
+          })
+          .catch(() => {
+            // console.error('del failed ', err)
+            res.sendStatus(500)
+          })
+      } else {
+        res.sendStatus(200)
+      }
     })
     .catch( err => {
       console.error('could not update ', err)})
