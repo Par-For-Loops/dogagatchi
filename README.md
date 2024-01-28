@@ -139,6 +139,11 @@ To load the database connection in deployment, run the following command from th
 
 Check out https://www.mongodb.com/docs/manual/reference/connection-string/#std-label-connections-connection-examples for more.
 
+Alternatively, you can simply recreate the .env file and the clientId.js file by running the following commands:
+
+> nano .env (and paste in variables from the git-ignored file, with the necessary change for deployed status)
+> nano client/components/assets/clientId.js (and paste in the variables and exports to this file with necessary changes)
+
 ### 7. Build the app, start the server, and access
 Run the following commands to a build the app for deployment and start the server:
 
