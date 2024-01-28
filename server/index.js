@@ -8,17 +8,17 @@ const session = require('express-session')
 const bcrypt = require('bcrypt')
 const flash = require('express-flash')
 require('dotenv').config()
-// const cloudinary = require('cloudinary').v2;
 const cloudinary = require('cloudinary')
 
 const userRoutes = require('./routes/userRoutes')
 const dogRoutes = require('./routes/dogRoutes')
 const messageRoutes = require('./routes/messageRoutes')
+const memeRoutes = require('./routes/memeRoutes')
 
 const app = express();
 const routeHandler = express.Router()
 const port = 4000;
-const { User, Dog } = require('./db/index');
+const { User, Dog, Meme } = require('./db/index');
 
 const clientId = process.env.GOOGLE_CLIENT_ID
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET
@@ -43,6 +43,7 @@ app.use(passport.session())
 routeHandler.use('/user', userRoutes)
 routeHandler.use('/dog', dogRoutes)
 routeHandler.use('/messages', messageRoutes)
+routeHandler.use('/memes', memeRoutes)
 app.use('/', routeHandler)
 
 passport.use(new LocalStrategy({
@@ -162,29 +163,11 @@ app.get('/api/gallery/:breed', (req, res) => {
 // POST dog pics to cloudinary
 app.post('/api/gallery', (req, res) => {
   const { url } = req.body;
-
+  // console.log(url)
   uploadImage(url)
   .then((result) => {
     // console.log('success ', result);
     res.send(result.url).status(201);
-  })
-  .catch((err) => console.error('could not upload ', err));
-})
-
-// POST meme
-app.post('api/meme', (req, res) => {
-  const { image, transform } = req.body;
-  // const { image } = req.body;
-  // console.log('image ', image);
-  // console.log('transform ', transform);
-
-  const url = cloudinary.url(image, transform);
-  // console.log(url);
-
-  uploadImage(url)
-  .then((result) => {
-    console.log('meme success ', result);
-    // res.send(result.url).status(201);
   })
   .catch((err) => console.error('could not upload ', err));
 })

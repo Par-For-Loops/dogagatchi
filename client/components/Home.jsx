@@ -37,7 +37,10 @@ const Home = () => {
                  <Button className='boot-button'>Dog Blog ✏️</Button>
             </Link>
             <Link to="/gallery">
-                <Button className='boot-button'>Gallery 🖼️</Button>
+                <Button className='boot-button'>Meme Gallery 🖼️</Button>
+            </Link>
+            <Link to="/memeGenerator">
+                <Button className='boot-button'>Meme Generator 🎭</Button>
             </Link>
             <Link to='/about'>
             <Button className='boot-button'>About 📖</Button>
