@@ -24,11 +24,13 @@ function Gallery() {
 
   // PUT to update likes
   const updateLikes = (id) => {
-    axios.put(`/memes/${id}`, {
-      meme: {
-        likes: meme.likes++
-      }
-    })
+    axios.put(`/memes/${id}`)
+    .then((response) => console.log(response))
+    .catch((err) => console.log(err))
+  }
+
+  const dislike = (id) => {
+    axios.put(`/memes/dislike/${id}`)
     .then((response) => console.log(response))
     .catch((err) => console.log(err))
   }
@@ -36,6 +38,11 @@ function Gallery() {
   const handleClick = (meme) => {
     // console.log(img._id)
     updateLikes(meme._id)
+  }
+
+  const handleDislike = (meme) => {
+    // console.log(img._id)
+    dislike(meme._id)
   }
 
   // call getMemes on page render
@@ -71,6 +78,7 @@ function Gallery() {
                   variant="outline-light"
                   size="sm"
                   type="submit"
+                  onClick={() => handleDislike(meme)}
                 >🫤</Button>
               </Container>
             </Col>

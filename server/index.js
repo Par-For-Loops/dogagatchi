@@ -154,8 +154,8 @@ app.get('/api/gallery/:breed', (req, res) => {
       // console.log(response.data.message);
       res.status(200).send(response.data.message)
     })
-    .catch((err) => {
-      console.error('Could not GET dog image ', err);
+    .catch(() => {
+      // console.error('Could not GET dog image ', err);
       res.sendStatus(500);
     })
 })
