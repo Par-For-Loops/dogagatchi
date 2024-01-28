@@ -48,6 +48,7 @@ const Message = mongoose.model('Message', messageSchema);
 
 const memeGallerySchema = new mongoose.Schema({
   img: String,
+  likes: { type: Number, default: 0 }
 }, { timestamps: true})
 const Meme = mongoose.model('Meme', memeGallerySchema);
 

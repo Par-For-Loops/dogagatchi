@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
 function Gallery() {
@@ -21,8 +22,20 @@ function Gallery() {
       });
   }
 
-  const handleClick = (img) => {
-    console.log(img._id)
+  // PUT to update likes
+  const updateLikes = (id) => {
+    axios.put(`/memes/${id}`, {
+      meme: {
+        likes: meme.likes++
+      }
+    })
+    .then((response) => console.log(response))
+    .catch((err) => console.log(err))
+  }
+
+  const handleClick = (meme) => {
+    // console.log(img._id)
+    updateLikes(meme._id)
   }
 
   // call getMemes on page render
@@ -46,8 +59,20 @@ function Gallery() {
                 onLoad={() => {
                   setLoaded(true)
                 }}
-                onClick={() => handleClick(meme)}
               />
+              <Container>
+                <Button 
+                  variant="outline-light"
+                  size="sm"
+                  type="submit"
+                  onClick={() => handleClick(meme)}
+                >🙂</Button>
+                <Button
+                  variant="outline-light"
+                  size="sm"
+                  type="submit"
+                >🫤</Button>
+              </Container>
             </Col>
           ))
         }

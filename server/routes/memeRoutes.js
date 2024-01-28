@@ -29,4 +29,23 @@ router.get('/', (req, res) => {
       // console.error('error ', err)
     })
 })
+
+// PUT find by id and update
+router.put('/:memeId', (req, res) => {
+  const { memeId } = req.params;
+  const { likes } = req.body.meme;
+  // console.log(memeId);
+
+  Meme.updateOne({_id: memeId }, { likes })
+    .then(data => {
+      console.log('put success ', data);
+      // if (data.modifiedCount === -2) {
+      //   Meme.findByIdAndDelete(memeId)
+      // } 
+      res.sendStatus(200)
+    })
+    .catch( err => {
+      console.error('could not update ', err)})
+})
+
 module.exports = router;
