@@ -59,6 +59,28 @@ router.get('/:userId', (req, res) => {
         })
 })
 
+
+//GET SAVED BONES LOCATIONS BY USERNAME
+
+router.get('/hiddenBones/:username', (req, res) => {
+    const { username } = req.params
+    User.find({username: username})
+    .then((userObj) => {
+        if(userObj){
+            res.status(200).send(userObj[0].hiddenBones)
+        } else {
+            res.sendStatus(404)
+        }
+    })
+    .catch((err) => {
+        console.error('hiddenBones GET did not succeed:', err )
+        res.sendStatus(500)
+    })
+})
+
+
+
+
 // **************** PUT ROUTES ********************
 
 //UPDATE ACHIEVEMENTS BY USER ID
@@ -139,7 +161,8 @@ router.put('/:_id', (req, res) => {
 router.put('/hiddenBones/:username', (req, res) => {
     const { username } = req.params
     const body = req.body
-    User.findOneAndUpdate({username: username}, { $push: { hiddenBones: body }}, {new: true})
+    const { lng } = req.body
+    User.findOneAndUpdate({username: username, 'hiddenBones.lng': {$ne: lng}}, { $push: { hiddenBones: body }}, {new: true})
     .then((userObj) => {
         if(userObj){
             res.status(200).send(userObj)
