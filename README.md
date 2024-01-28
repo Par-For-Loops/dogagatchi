@@ -55,6 +55,7 @@ GOOGLE_CLIENT_SECRET=<<someClientSecret>>
 CLOUDINARY_URL=<<someCloudinaryAPIEnvironmentVariable>>
 IS_DEPLOYED=<<true-or-false>>
 DEPLOYED_URL=<<DeployedInstanceURLWithPortNumber>>
+OPENAI_KEY=<<someOpenAIKey>>
 
 Checkout this link to learn about configuring Passport for Google Authentication: https://developers.google.com/identity/protocols/oauth2. You'll need to set up a project in Google Cloud Platform and configure the Client ID and Secret in the API's & Services section.
 
@@ -108,9 +109,9 @@ For nvm:
 
 After running the above command to install nvm, you'll be prompted to run three more commands to get nvm working. Run them:
 
-> export NVM_DIR="$HOME/.nvm"  
-> [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  
-> [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  
+> export NVM_DIR="$HOME/.nvm"
+> [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+> [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
  The app was developed with version 20.9 of Node, so install it to the instance.
 
@@ -118,10 +119,10 @@ After running the above command to install nvm, you'll be prompted to run three 
 
 Double-check versions with the following commands:
 
-  >git --version  
-  >nvm --version  
-  >node --version  
-  >npm --version  
+  >git --version
+  >nvm --version
+  >node --version
+  >npm --version
 
 ### 6. Clone repo, download dependencies, configure db
 From the instance's root folder, clone down the app's repo from Github.
@@ -148,7 +149,6 @@ Run the following commands to a build the app for deployment and start the serve
 Make sure you've whitelisted your VM's public IP address in MongoDB Atlas. You can now navigate to the instance using the following url format:
 
 > http://public-IP-Address-Of-Instance:server-Port
-
 
 # Updating Source Code & Redeployment
 To update the code running on the VM, cd into the project's folder on the VM and run a git pull from the origin.
