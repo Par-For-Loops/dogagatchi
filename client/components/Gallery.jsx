@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 
 function Gallery() {
@@ -25,14 +26,13 @@ function Gallery() {
   // PUT to update likes
   const updateLikes = (id) => {
     axios.put(`/memes/${id}`)
-    .then((response) => console.log(response))
-    .catch((err) => console.log(err))
+    // .then((response) => console.log(response))
+    // .catch((err) => console.log(err))
   }
 
   const dislike = (id) => {
     axios.put(`/memes/dislike/${id}`)
-    .then((response) => console.log(response))
-    .catch((err) => console.log(err))
+
   }
 
   const handleClick = (meme) => {
@@ -42,7 +42,7 @@ function Gallery() {
 
   const handleDislike = (meme) => {
     // console.log(img._id)
-    dislike(meme._id)
+    dislike(meme._id);
   }
 
   // call getMemes on page render
@@ -58,29 +58,35 @@ function Gallery() {
         {
           memeGallery.map((meme) => (
             <Col className="gallery-column" key={meme._id}>
-              <img
-                className="gallery-image"
-                style={loaded ? { width: '300px', height: 'auto' } : { display: 'none' }}
-                src={meme.img} 
-                alt={meme._id} 
-                onLoad={() => {
-                  setLoaded(true)
-                }}
-              />
-              <Container>
-                <Button 
-                  variant="outline-light"
-                  size="sm"
-                  type="submit"
-                  onClick={() => handleClick(meme)}
-                >🙂</Button>
-                <Button
-                  variant="outline-light"
-                  size="sm"
-                  type="submit"
-                  onClick={() => handleDislike(meme)}
-                >🫤</Button>
-              </Container>
+              <Card style={{ width: '325px' }}>
+                <Card.Img
+                  className="gallery-image"
+                  style={loaded ? { width: '300px', height: 'auto' } : { display: 'none' }}
+                  src={meme.img} 
+                  alt={meme._id} 
+                  onLoad={() => {
+                    setLoaded(true)
+                  }}
+                />
+                <Card.Body>
+                  <Button 
+                    className="emoji-button"
+                    variant="outline-light"
+                    size="sm"
+                    type="submit"
+                    onClick={() => handleClick(meme)}
+                  >🙂</Button>
+                  <Button
+                    className="emoji-button"
+                    variant="outline-light"
+                    size="sm"
+                    type="submit"
+                    onClick={() => {
+                      handleDislike(meme)
+                    }}
+                  >🫤</Button>
+                </Card.Body>
+              </Card>
             </Col>
           ))
         }
