@@ -27,8 +27,11 @@ function MyMap() {
         clickForNewMarker()
         retrieveAllMarkers()
         clickToShowBones()
-    });
+    }, []);
     
+    useEffect(() => {
+        retrieveAllMarkers()
+    }, [allMarkers])
     
     function createMarker() {
         map.marker = new mapboxgl.Marker({
@@ -78,6 +81,7 @@ function MyMap() {
 
     function addCommentOnClick() {
         // addComment
+        
         let thisUser = JSON.parse(sessionStorage.user)
             // put request to send location to db
             axios.put(`/user/hiddenBones/${thisUser.username}`, {
