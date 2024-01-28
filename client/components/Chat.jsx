@@ -39,7 +39,7 @@ const Chat = () => {
     socket.on('message', onMessageEvent);
 
     // automatically scrolls to bottom of messages with each state change
-    div.current.scrollIntoView({behavior: "smooth", block: "end"});
+    div.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
 
     return () => {
       socket.off('message', onMessageEvent);
@@ -69,54 +69,66 @@ const Chat = () => {
     if (e.key === 'Enter' && !e.shiftKey) {
       emitMessage();
     }
-  }
+  };
 
   const messageElements = messageEvents.map((msg, i) => {
     if (msg.message.split(': ')[0] === userObj.username) {
       return (
-        <div className="right-message" key={i}>
+        <div className='right-message' key={i}>
           <div>
-          <span className="right-name-time">
-            <span className="right-msg-time">{dayjs(msg.createdAt).format('h:mm:ss a')}</span>
-          </span>
+            <span className='right-name-time'>
+              <span className='msg-time'>
+                {dayjs(msg.createdAt).format('h:mm:ss a')}
+              </span>
+            </span>
           </div>
-          <div className="right-msg-content">{msg.message.split(': ')[1]}</div>
+          <div className='right-msg-content'>{msg.message.split(': ')[1]}</div>
         </div>
       );
     } else {
       return (
-        <div className="message" key={i}>
+        <div className='message' key={i}>
           <div>
-          <span className="name-time">
-            <span className="msg-name">{msg.message.split(': ')[0]}</span>
-            <span>{'   '}</span>
-            <span className="msg-time">{dayjs(msg.createdAt).format('h:mm:ss a')}</span>
-          </span>
+            <span className='name-time'>
+              <span className='msg-name'>{msg.message.split(': ')[0]}</span>
+              <span>{'   '}</span>
+              <span className='msg-time'>
+                {dayjs(msg.createdAt).format('h:mm:ss a')}
+              </span>
+            </span>
           </div>
-          <div className="msg-content">{msg.message.split(': ')[1]}</div>
+          <div className='msg-content'>{msg.message.split(': ')[1]}</div>
         </div>
       );
     }
-});
+  });
 
   return (
     <div className='chat'>
       <div className='message-area'>
         <div ref={div}>
           {messageElements}
+          <div id='anchor'></div>
         </div>
       </div>
       <div className='input-area'>
-        <textarea
-          className='chat-textarea'
-          placeholder='Type message here...'
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => enterKeydown(e)}
-        />
-        <Button type='button' disabled={isLoading} onClick={emitMessage}>
-          Send
-        </Button>
+        <span>
+          <textarea
+            className='input-textarea'
+            placeholder='Type message here...'
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={(e) => enterKeydown(e)}
+          />
+          <Button
+            className='chat-btn'
+            type='button'
+            disabled={isLoading}
+            onClick={emitMessage}
+          >
+            Send
+          </Button>
+        </span>
       </div>
     </div>
   );
