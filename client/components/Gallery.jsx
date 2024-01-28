@@ -49,7 +49,7 @@ function Gallery() {
   useEffect(() => {
     getMemes();
  
-  }, [])
+  }, [memeGallery])
 
 
   return (
@@ -58,9 +58,9 @@ function Gallery() {
         {
           memeGallery.map((meme) => (
             <Col className="gallery-column" key={meme._id}>
-              <Card style={{ width: '325px' }}>
+              <Card className="gallery-image" style={{ width: '325px' }}>
                 <Card.Img
-                  className="gallery-image"
+                  // className="gallery-image"
                   style={loaded ? { width: '300px', height: 'auto' } : { display: 'none' }}
                   src={meme.img} 
                   alt={meme._id} 
