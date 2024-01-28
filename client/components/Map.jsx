@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import Button from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import axios from 'axios'
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3ljb2RlZSIsImEiOiJjbHJxcndwam8wNmZsMmtwOXUyZ3JjNXo2In0.yLXXdweemHobMUJlc9GXvg';
@@ -106,14 +106,21 @@ function MyMap() {
             <div>
                 <div ref={mapContainer} className="map-container" ></div>
             </div>
-            
-            <label htmlFor="boneLocation">Bone Note</label>
+            <br />
+            <div id='bigMapDiv'>
+                <h1>COME ALONG ON A BONE ADVENTURE!</h1>
+                <h4>**Click where you want to bury your bone and leave yourself a little note about this special place!**</h4>
+            <br />
+            <label htmlFor="boneLocation" id='boneLocationLabel'>Bone Note</label>
             {' '}
-            <input type="text" name="" id="boneLocation" placeholder='Hide A Bone' onChange={handleChange}/>
+            <input type="text" name="" id="boneLocation" placeholder='Add a note here' onChange={handleChange}/>
             <br />
-            <button onClick={addCommentOnClick}>Click to save Point</button>
             <br />
-            <button id='boneLocator' onClick={clickToShowBones}>Bone Locator</button>
+            <Button onClick={addCommentOnClick}>Bury My Bone 🦴</Button>
+            <br />
+            <br />
+            <Button id='boneLocator' onClick={clickToShowBones}>Show My Bone Collection</Button>
+            </div>
         </div>
       );
 }
