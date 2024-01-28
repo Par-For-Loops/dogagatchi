@@ -448,7 +448,7 @@ body {
   border-style: double;
   border-color: var(--color-secondary);
   padding: 10px;
-  height: 75vh;
+  height: 70vh;
   overflow-y: auto;
   overflow-anchor: none;
 }
@@ -550,4 +550,8 @@ body {
 }
 .gallery-image {
   box-shadow: 2px 2px 2px rgb(104, 103, 103);;
+}
+
+.emoji-button {
+  background-color: lightblue;
 }

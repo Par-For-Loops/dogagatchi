@@ -36,8 +36,12 @@ function MemeGenerator() {
         img: url
       }
     })
-    .then(() => console.log('POSTed to db ', response))
-    .catch(err => console.error('Could not POST to db ', err));
+    .then(() => {
+      // console.log('POSTed to db ', response)
+    })
+    .catch(() => {
+      // console.error('Could not POST to db ', err)
+    });
   }
 
   // POST dog meme to cloudinary

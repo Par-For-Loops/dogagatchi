@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Nav, Navbar, } from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
 import { useNavigate, Link } from 'react-router-dom';
 
 function NavBar(props) {
@@ -13,8 +13,8 @@ function NavBar(props) {
 
 
   return (
-    <Navbar expand="lg" bg="primary" data-bs-theme="dark">
-      <Container>
+    <Navbar expand="xxl" bg="primary" data-bs-theme="dark">
+      <Container fluid>
         <Navbar.Brand as={Link} to="/home" className='dogagotchi-header'>🐶 Dogagatchi+</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className="my-1" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
@@ -25,10 +25,10 @@ function NavBar(props) {
             <Nav.Link className="ms-auto" as={Link} to="/myMap">my Map 🗺️</Nav.Link>
             <Nav.Link className="ms-auto" as={Link} to="/leaderboard">Top Dawgs 🏆</Nav.Link>
             <Nav.Link className="ms-auto" as={Link} to="/chat">Chat 💬</Nav.Link>
-            <Nav.Link className="ms-auto" as={Link} to="/about">About 📖</Nav.Link>
             <Nav.Link className="ms-auto" as={Link} to="/dogblog">Dog Blog ✏️</Nav.Link>
             <Nav.Link className="ms-auto" as={Link} to="/gallery">Gallery 🖼️</Nav.Link>
             <Nav.Link className="ms-auto" as={Link} to="/memeGenerator">Meme Generator 🎭</Nav.Link>
+            <Nav.Link className="ms-auto" as={Link} to="/about">About 📖</Nav.Link>
             <Nav.Link className="ms-auto" onClick={logout}>BowWowt 👋</Nav.Link>
           </Nav>
         </Navbar.Collapse>

@@ -28,18 +28,22 @@ Create an untracked .env file in the root of the project. In that file, declare 
 
 This runs webpack in watch mode.
 
-### Start express server
+### Start express server and socket.io server
 
 > npm run start
+> npm run socket
 
 # Environment Variables
 
 Environment variables are loaded from the .env file through the config.js file using the dotenv package.
 
-Only three environment variables require assigning to serve/deploy Dogagatchi+:
+Only seven environment variables require assigning to serve/deploy Dogagatchi+:
 1. MongoDB Atlas database connection string (see above and below)
 2. Google Passport Client ID
 3. Google Passport Client Secret
+4. Cloudinary
+5. 'true' or 'false' for deployed status (for correct CORS options with socket)
+6. Deployed Instance URL with the port number
 
 Checkout config.js in the server folder to see the three in action, and define them for your version in the .env file (which is not tracked by git and will therefore not show up when you pull the repo down).
 
@@ -48,8 +52,16 @@ Your .env file should look like this:
 ATLAS_URI=<<someConnectionString>>
 GOOGLE_CLIENT_ID=<<someClientId>>
 GOOGLE_CLIENT_SECRET=<<someClientSecret>>
+CLOUDINARY_URL=<<someCloudinaryAPIEnvironmentVariable>>
+IS_DEPLOYED=<<true-or-false>>
+DEPLOYED_URL=<<DeployedInstanceURLWithPortNumber>>
+OPENAI_KEY=<<someOpenAIKey>>
 
 Checkout this link to learn about configuring Passport for Google Authentication: https://developers.google.com/identity/protocols/oauth2. You'll need to set up a project in Google Cloud Platform and configure the Client ID and Secret in the API's & Services section.
+
+Go to: https://cloudinary.com/pricing and select free account. After you sign up you can find your API environment variable in your cloudinary console dashboard.
+
+Additionally, to eliminate the need to sift through client-side files to make changes between local development and deployment, a clientId.js file was added in client/components/assets.  An example has been added to the git history for your help.  Create a 'clientId.js' file in this folder and assign these variables.  Note: the deployed URL requires the port the socket is listening on, which in the current set-up is 4001.
 
 # Database
 
@@ -68,11 +80,12 @@ Provide a project name, select the Ubuntu option in the 'Quick Start' menu, then
 ### 3. Change firewall rules
 Navigate to the 'Instance summary' in AWS and click on the Security tab about halfway down the page. Then click the link to access the Security Group that contains the firewall rules for the instance ("sg-somethingSomethingSomething" or similar). Then click 'Edit inbound rules', and add the three rules below:
 
-|     TYPE      |  PORT RANGE   |     SOURCE    |      WHY?    |
-| ------------- | ------------- | ------------- | ------------ |
-| SSH           |  22           | Local-Dev-IP/32  |  SSH into instance from your computer |
-| Custom TCP    | server port (eg, 8080, 4000)  | 0.0.0.0/0 | User access from internet |
-| Custom TCP    | 27017         |  VM-public-IP/32 | VM access to cloud Mongo db |
+|     TYPE      |  PORT RANGE   |     SOURCE      |      WHY?                             |
+| ------------- | ------------- | -------------   | ------------------------------------- |
+| SSH           |  22           | Local-Dev-IP/32 |  SSH into instance from your computer |
+| Custom TCP    | 4000 (server) | 0.0.0.0/0       | User access from internet             |
+| Custom TCP    | 27017         |  VM-public-IP/32| VM access to cloud Mongo db           |
+| Custom TCP    | 4001 (socket) | 0.0.0.0/0       | Socket access for Chatroom            |
 
 Now that SSH access is enabled, we'll connect to the instance and set it up to host the app.
 
@@ -96,9 +109,9 @@ For nvm:
 
 After running the above command to install nvm, you'll be prompted to run three more commands to get nvm working. Run them:
 
-> export NVM_DIR="$HOME/.nvm"  
-> [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  
-> [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  
+> export NVM_DIR="$HOME/.nvm"
+> [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+> [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
  The app was developed with version 20.9 of Node, so install it to the instance.
 
@@ -106,10 +119,10 @@ After running the above command to install nvm, you'll be prompted to run three 
 
 Double-check versions with the following commands:
 
-  >git --version  
-  >nvm --version  
-  >node --version  
-  >npm --version  
+  >git --version
+  >nvm --version
+  >node --version
+  >npm --version
 
 ### 6. Clone repo, download dependencies, configure db
 From the instance's root folder, clone down the app's repo from Github.
@@ -126,16 +139,21 @@ To load the database connection in deployment, run the following command from th
 
 Check out https://www.mongodb.com/docs/manual/reference/connection-string/#std-label-connections-connection-examples for more.
 
+Alternatively, you can simply recreate the .env file and the clientId.js file by running the following commands:
+
+> nano .env (and paste in variables from the git-ignored file, with the necessary change for deployed status)
+> nano client/components/assets/clientId.js (and paste in the variables and exports to this file with necessary changes)
+
 ### 7. Build the app, start the server, and access
 Run the following commands to a build the app for deployment and start the server:
 
 > npm run build
 > npm run start
+> npm run socket
 
 Make sure you've whitelisted your VM's public IP address in MongoDB Atlas. You can now navigate to the instance using the following url format:
 
 > http://public-IP-Address-Of-Instance:server-Port
-
 
 # Updating Source Code & Redeployment
 To update the code running on the VM, cd into the project's folder on the VM and run a git pull from the origin.
@@ -148,16 +166,18 @@ Next, run the following command to set the Atlas DB connection string:
 
 > export ATLAS_URI=mongodb+srv://database-User:database-Password@database-Cluster>>.mongodb.net/database-Name
 
-Finally, build the app and start the server:
+Finally, build the app and start the servers:
 
 > npm run build
 > npm run start
+> npm run socket
 
 ### Troubleshooting
 Most issues with deployment stem from problems connecting to the MongoDB Atlas database. Please be sure to both:
 
 1) Whitelist any IP addresses in MongoDB Atlas that need access to the hosted database
 2) Set up the connection string as an environment variable, either by including it locally in a .env file or by loading it into the production build by running the 'export' command included above.
+3) Additionally, the authentication strategy originally employed will require you to specify the "test users" in the Google Developer Console in order for any possible team members to access the deployed instance via Google Sign-In
 
 ### Contact
 Reach out to one of the following with issues.
