@@ -63,9 +63,9 @@ router.get('/story/:dogName/breeds/:dogBreed/owners/:owner/', (req, res) => {
 
   const body = {
     "model": "gpt-3.5-turbo-instruct",
-    "prompt": `Write a blog post about my dog named ${dogName}, he is a ${dogBreed}. The dog's owner is a man, named ${owner}. What did the dog do today? Write it from the perspective of the dog.`,
-    "max_tokens": 150,
-    "temperature": .7
+    "prompt": `Write a one paragraph long blog post about my dog named ${dogName}, he is a ${dogBreed}. The dog's owner is a man, named ${owner}. What did the dog do today? Write it from the perspective of the dog.`,
+    "max_tokens": 300,
+    "temperature": 1
   }
 
   axios.post('https://api.openai.com/v1/completions', body, headers)
@@ -157,6 +157,21 @@ router.put('/:dogId', (req, res) => {
         });
 });
 
+//LIKE BLOG ENTRY BY ID
+
+// router.put('/story/:dogId', (req, res) => {
+//   const { dogId } = req.params;
+//   const q = {
+//     'stories._id': dogId
+//   }
+//   Dog.findOneAndUpdate(q, { $set: {stories: {liked: true}}  }, { new: true })
+//   .then((response) => {
+//     console.log(response)
+//     res.status(200)
+//   })
+//   .catch((err) => console.log(err));
+// })
+
 // **************** DELETE ROUTES ********************
 
 
@@ -192,7 +207,19 @@ router.delete('/:dogId', (req, res) => {
     });
 })
 
+//DELETE BLOG ENTRY BY ID
 
+router.delete('/story/:dogId', (req, res) => {
+  const { dogId } = req.params;
+  const q = {
+    'stories._id': dogId 
+  }
+  Dog.findOneAndUpdate(q, { $pull: { stories: {_id: dogId} } }, { new: true })
+  .then((response) => {
+    res.status(200).send(response)
+  })
+  .catch((err) => console.log(err));
+})
 
 
 
