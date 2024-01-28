@@ -2,6 +2,7 @@ import React from 'react'
 import { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 // import Button from 'react-bootstrap'
+import axios from 'axios'
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3ljb2RlZSIsImEiOiJjbHJxcndwam8wNmZsMmtwOXUyZ3JjNXo2In0.yLXXdweemHobMUJlc9GXvg';
 function MyMap() {
@@ -10,7 +11,7 @@ function MyMap() {
     const [lng, setLng] = useState(-90.09307721786142);
     const [lat, setLat] = useState(30.008068345656227);
     const [zoom, setZoom] = useState(13);
-
+    const [allMarkers, setMarkers] = useState([])
     // Set marker options.
     
     useEffect(() => {
@@ -25,6 +26,17 @@ function MyMap() {
         clickForNewMarker()
         let thisUser = JSON.parse(sessionStorage.user)
         console.log(thisUser.username)
+        retrieveAllMarkers()
+        // clickToShowBones()
+        
+        // axios.get(`/user/hiddenBones/${thisUser.username}`)
+        // .then((hiddenBonesArr) => {
+        //     setMarkers(hiddenBonesArr.data)
+        // })
+            
+    
+        clickToShowBones()
+
     });
     
     
@@ -57,6 +69,34 @@ function MyMap() {
         })
     }
 
+
+    function retrieveAllMarkers(){
+        let thisUser = JSON.parse(sessionStorage.user)
+        console.log(thisUser.username)
+        axios.get(`/user/hiddenBones/${thisUser.username}`)
+        .then((hiddenBonesArr) => {
+            setMarkers(hiddenBonesArr.data)
+        })
+    }
+
+    function clickToShowBones() {
+        // let thisUser = JSON.parse(sessionStorage.user)
+        // let boneLocator = document.getElementById('boneLocator')
+        // boneLocator.addEventListener('click', () => {
+        //     // console.log('bonieee locator')
+        // //     axios.get(`/user/hiddenBones/${thisUser.username}`)
+        // // .then((hiddenBonesArr) => {
+        // //     setMarkers(hiddenBonesArr.data)
+        // // })
+        console.log(allMarkers)
+            
+            
+        // })
+        // console.log(thisUser.username)
+        // console.log('this is the bone locator function')
+    }
+
+    
       return (
         <div>
             <div>
@@ -70,7 +110,7 @@ function MyMap() {
             <br />
             <button>Click to save Point</button>
             <br />
-            <button>Bone Locator</button>
+            <button id='boneLocator' onClick={clickToShowBones}>Bone Locator</button>
         </div>
       );
 }
