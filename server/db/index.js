@@ -34,7 +34,7 @@ const dogSchema = new mongoose.Schema({
   walkDeadline: Date, // timers
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   breed: String,
-  stories: [{story: String, date: String, liked: {type: Boolean, default: false}, storyId: Number}]
+  stories: [{story: String, date: String, likes: {type: Number, default: 0}, storyId: Number}]
 });
 const Dog = mongoose.model('Dog', dogSchema);
 
