@@ -448,7 +448,7 @@ body {
   border-style: double;
   border-color: var(--color-secondary);
   padding: 10px;
-  height: 75vh;
+  height: 70vh;
   overflow-y: auto;
   overflow-anchor: none;
 }
