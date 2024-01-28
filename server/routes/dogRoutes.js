@@ -159,18 +159,19 @@ router.put('/:dogId', (req, res) => {
 
 //LIKE BLOG ENTRY BY ID
 
-// router.put('/story/:dogId', (req, res) => {
-//   const { dogId } = req.params;
-//   const q = {
-//     'stories._id': dogId
-//   }
-//   Dog.findOneAndUpdate(q, { $set: {stories: {liked: true}}  }, { new: true })
-//   .then((response) => {
-//     console.log(response)
-//     res.status(200)
-//   })
-//   .catch((err) => console.log(err));
-// })
+router.put('/story/:dogId', (req, res) => {
+  const { dogId } = req.params;
+  const q = {
+    'stories._id': dogId
+  }
+  Dog.findOneAndUpdate(q, (q,
+  {$inc: {"stories.$.likes": 1}}), { new: true })
+  .then((response) => {
+    
+    res.status(200).send(response)
+  })
+  .catch((err) => console.log(err));
+})
 
 // **************** DELETE ROUTES ********************
 

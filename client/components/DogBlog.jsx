@@ -28,7 +28,7 @@ function DogBlog() {
       })
       .catch((err) => console.log(err, "post story failed"));
   };
-
+  // delete request to db
   const deleteStory = (storyId) => {
     axios
     .delete(`dog/story/${storyId}`)
@@ -37,14 +37,15 @@ function DogBlog() {
     })
     .catch((err) => console.log(err))
   }
-  // const likeStory = (storyId) => {
-  //   axios
-  //   .put(`dog/story/${storyId}`)
-  //   .then(({ data }) => {
-  //     console.log(data, 'success')
-  //   })
-  //   .catch((err) => console.log(err))
-  // }
+  // update like count on db
+  const likeStory = (storyId) => {
+    axios
+    .put(`dog/story/${storyId}`)
+    .then(({ data }) => {
+      setDogStory(data.stories.reverse());
+    })
+    .catch((err) => console.log(err))
+  }
   // render a component that shows current dogs you possess
   const dogList2 =
     dogArray.length === 0 ? (
@@ -90,15 +91,15 @@ function DogBlog() {
                 <Card.Body className="d-flex flex-column">
                   <Card.Title>My life as a dog...</Card.Title>
                   <Card.Text>{story.date}</Card.Text>
-                  {/* <Card.Text>{story.liked ? 'you like it' : 'you do not like' }</Card.Text> */}
+                  <Card.Text>Likes: {story.likes}</Card.Text>
                   <Card.Text>{story.story}</Card.Text>
                 </Card.Body>
               </div>
-              {/* <div className="d-flex align-items-center justify-content-middle mx-4">
+              <div className="d-flex align-items-center justify-content-middle mx-4">
                 <Button variant="primary" onClick={() => likeStory(story._id)}>
                   Like this post!
                 </Button>
-              </div> */}
+              </div>
               <div className="d-flex align-items-center justify-content-middle mx-4">
                 <Button variant="secondary" onClick={() => deleteStory(story._id)}>
                   Delete this post

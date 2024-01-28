@@ -437,33 +437,81 @@ body {
 }
 
 .chat {
-  margin-right: 20px;
-  margin-bottom: 20px;
-  margin-left: 20px;
-  margin-top: 20px;
-}
-
-.chat-textarea {
-  width: 40vw;
-  height: 100px;
-  resize: vertical;
+  margin-right: 1%;
+  margin-bottom: 1%;
+  margin-left: 1%;
+  margin-top: 1%;
 }
 
 .message-area {
+  border-radius: 10px;
+  border-style: double;
+  border-color: var(--color-secondary);
+  padding: 10px;
   height: 70vh;
-  background-color: #ade3e3;
   overflow-y: auto;
   overflow-anchor: none;
 }
 
+.message {
+  margin: 10px;
+}
+.msg-name {
+  font-weight: bold;
+}
+.msg-content {
+  background-color:#eaeaea;
+  border-radius: 15px;
+  padding: 7px;
+  max-width: 66vw;
+  clear: both;
+  display: inline-block;
+}
+.msg-time {
+  font-style: oblique;
+  font-size: smaller;
+}
+
+.right-msg-content {
+  background-color: var(--color-primary);
+  border-radius: 15px;
+  padding: 7px;
+  max-width: 66vw;
+  clear: both;
+  display: inline-block;
+  color:#ffffff;
+}
+.right-message {
+  margin: 10px;
+  display: grid;
+  justify-items: end;
+}
+
 #anchor {
-  overflow-anchor: auto;
   height: 1px;
 }
 
 .input-area {
   align-items: flex-end;
+  display:grid;
+  justify-items: flex-end;
 }
+
+.input-textarea {
+  margin-top: 1%;
+  width: 45vw;
+  height: 7vw;
+  border-radius: 20px;
+  border-color: transparent;
+  padding: 10px;
+  resize: vertical;
+}
+
+.chat-btn {
+  float: right;
+  border-radius: 30px;
+}
+
 
 .map-container {
   height: 400px;
@@ -525,4 +573,8 @@ body {
 
 #bigMapDiv h1 {
   color: rgb(47, 0, 255)
+}
+
+.emoji-button {
+  background-color: lightblue;
 }
