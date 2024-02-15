@@ -4,7 +4,7 @@ import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-load
 import { Button } from 'react-bootstrap'
 import axios from 'axios'
 
-mapboxgl.accessToken = 'pk.eyJ1Ijoia3ljb2RlZSIsImEiOiJjbHJxcndwam8wNmZsMmtwOXUyZ3JjNXo2In0.yLXXdweemHobMUJlc9GXvg';
+// mapboxgl.accessToken = 'create mapbox access token and place here and uncomment';
 function MyMap() {
     const mapContainer = useRef(null);
     const map = useRef(null);

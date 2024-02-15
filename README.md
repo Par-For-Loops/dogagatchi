@@ -6,6 +6,9 @@ Dogagatchi+ combines trivia, collecting and caretaking game components to create
 
 The first thing you want to do is answer questions on the Pooch Picker page. Every correct answer earns you one coin, with which you can spend to purchase dogs and buy your dogs treats. You must keep the dogs in your kennel happy and well fed, otherwise they'll run away. Walking your dog does not cost any coins, a treat costs 3 coins, and a meal from le Bone Appétit Cafe will make your dog full and happy. Enjoy.
 
+Some new features that were added were a bone collection game, meme generator, dog blog, and a user chat feature. 
+
+
 ## **Starting the app for local development**
 
 Clone the repository down and then...
@@ -223,10 +226,10 @@ Reach out to one of the following with issues.
 Sydney Andre: https://github.com/saandre0217\
 James Sheppard: https://github.com/Jshep23prog
 
-[Robert Frank]
-[Nathan Cassiani]
-[Raven Hughes]
-[Ky Patton]
+[Robert Frank] https://github.com/jrfiii **Chat**
+[Nathan Cassiani] https://github.com/nwcassiani **Meme Generator**
+[Raven Hughes] https://github.com/ravenhillh **Dog Blog**
+[Ky Patton] https://github.com/kycodee **Map**
 
 ### **FAQ**
 
